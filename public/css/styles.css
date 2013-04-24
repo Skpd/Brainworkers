@@ -38,3 +38,7 @@ body > pre {
 .row-fluid label:first-child + *[class*="span"] {
     margin-left: 0;
 }
+
+#payment-form {
+    display: inline-block;
+}

@@ -28,7 +28,7 @@
                         <p>Не оплачено</p>
                     <? endif; ?>
 
-                    <p>
+                    <div class="row-fluid">
                         <? if ($this->isAllowed('team', 'list')): ?>
                             <a class="btn blue" href="<?=$this->url('team/show', array('id' => $team->getId()))?>">
                                 Профиль
@@ -52,7 +52,7 @@
                                 Удалить
                             </a>
                         <? endif; ?>
-                    </p>
+                    </div>
                 <? endforeach; ?>
             </div>
         <? endif; ?>
