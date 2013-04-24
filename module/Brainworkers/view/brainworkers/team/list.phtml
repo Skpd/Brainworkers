@@ -120,7 +120,9 @@
 <? $this->headScript()->captureStart() ?>
 //<script type="text/javascript">
     (function() {
-        $('#teams-table').dataTable();
+        $('#teams-table').dataTable({
+            iDisplayLength: 100
+        });
     })();
 //</script>
 <? $this->headScript()->captureEnd() ?>
