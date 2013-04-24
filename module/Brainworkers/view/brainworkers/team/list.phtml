@@ -9,16 +9,16 @@
     <div class="span12">
         <table class="table table-striped table-bordered table-advance table-hover" id="teams-table">
             <thead>
+            <? if ($this->isAllowed('team', 'add') && $this->ZfcUserIdentity() && count($this->ZfcUserIdentity()->getTeams()) < 1): ?>
             <tr>
                 <td colspan="6">
-                    <? if ($this->isAllowed('team', 'add')): ?>
-                        <a class="btn green" href="<?=$this->url('team/add')?>">
-                            <i class="icon-plus-sign icon-white"></i>
-                            Добавить команду
-                        </a>
-                    <? endif; ?>
+                    <a class="btn green" href="<?=$this->url('team/add')?>">
+                        <i class="icon-plus-sign icon-white"></i>
+                        Добавить команду
+                    </a>
                 </td>
             </tr>
+            <? endif; ?>
             <tr>
                 <th>ID</th>
                 <th>Название</th>
@@ -28,18 +28,18 @@
                 <th class="span5">Действия</th>
             </tr>
             </thead>
+            <? if ($this->isAllowed('team', 'add') && $this->ZfcUserIdentity() && count($this->ZfcUserIdentity()->getTeams()) < 1): ?>
             <tfoot>
             <tr>
                 <td colspan="6">
-                    <? if ($this->isAllowed('team', 'add')): ?>
                     <a class="btn green" href="<?=$this->url('team/add')?>">
                         <i class="icon-plus-sign icon-white"></i>
                         Добавить команду
                     </a>
-                    <? endif; ?>
                 </td>
             </tr>
             </tfoot>
+            <? endif; ?>
             <tbody>
             <? foreach($teams as $team): ?>
                 <tr>
