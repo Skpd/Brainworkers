@@ -1,0 +1,45 @@
+<form id="payment-form" name="payment" action="http://www.interkassa.com/lib/payment.php" method="post">
+    <input type="hidden" name="ik_shop_id" value="1FC951EA-F39F-6300-CD3C-1C65EFA90584">
+    <input type="hidden" name="ik_payment_amount" value="10">
+    <input id="paymentId" type="hidden" name="ik_payment_id" value="">
+    <input type="hidden" name="ik_payment_desc" value="Оплата оргвзноса за команду &laquo;<?=implode(',', $this->ZfcUserIdentity()->getTeams()->toArray())?>&raquo; в турнире &laquo;Нить времён&raquo;">
+    <input type="hidden" name="ik_paysystem_alias" value="">
+    <input id="baggage" type="hidden" name="ik_baggage_fields" value="">
+
+    <input type="hidden" name="ik_success_url" value="http://brainworkers.ru/payment/success">
+    <input type="hidden" name="ik_success_method" value="POST">
+
+    <input type="hidden" name="ik_fail_url" value="http://brainworkers.ru/payment/fail">
+    <input type="hidden" name="ik_fail_method" value="POST">
+
+    <input type="hidden" name="ik_status_url" value="http://brainworkers.ru/payment/status">
+    <input type="hidden" name="ik_status_method" value="POST">
+
+    <input class="btn blue" type="submit" name="process" value="Оплатить">
+</form>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function() {
+        var allowed = false;
+        $('#payment-form').submit(function() {
+            if (allowed) {
+                return true;
+            }
+
+            $.get('<?=$this->url('payment/create')?>', function(r) {
+                if (r && r.status && r.id && r.baggage) {
+                    allowed = true;
+                    $('#baggage').val(r.baggage);
+                    $('#paymentId').val(r.id);
+                    $('#payment-form').submit()
+                } else {
+                    allowed = false;
+                }
+            }, 'json');
+
+            return false;
+        });
+    })();
+    //</script>
+<? $this->headScript()->captureEnd() ?>

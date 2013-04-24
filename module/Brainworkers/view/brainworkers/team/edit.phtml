@@ -1,0 +1,10 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $form \Zend\View\Model\ViewModel
+ */
+?>
+
+<? $this->navigation('navigation')->getContainer()->findBy('route', 'team/edit')->setActive(); ?>
+
+<?=$this->render($form)?>

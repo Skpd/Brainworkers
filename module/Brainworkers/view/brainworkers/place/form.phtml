@@ -1,0 +1,27 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $form \Zend\Form\Form
+ */
+?>
+
+<?=$this->form()->openTag($form->prepare()->setAttribute('class', 'form-horizontal'))?>
+    <div class="row-fluid">
+        <?= $this->partial('generic/form/fieldset.phtml', array('collection' => $form)); ?>
+    </div>
+    <div class="form-actions">
+        <input type="submit" name="submit" value="Submit" class="btn green" />
+        <a href="<?= $this->url('place/list') ?>" class="btn red">Cancel</a>
+    </div>
+<?=$this->form()->closeTag($form)?>
+
+<? $this->headScript()->captureStart() ?>
+    //<script type="text/javascript">
+    (function() {
+        $('#teams').select2({
+            width: 220,
+            maximumSelectionSize: parseInt($('#teamsMax').val(), 10)
+        });
+    })();
+    //</script>
+<? $this->headScript()->captureEnd() ?>

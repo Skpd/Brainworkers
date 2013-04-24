@@ -1,0 +1,98 @@
+<? /* @var $this \Zend\View\Renderer\PhpRenderer */ ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <? $form->setAttribute('action', $this->url('answer/add'))->setAttribute('class', 'form-inline')->prepare(); ?>
+            <?= $this->form()->openTag($form); ?>
+
+            <div class="control-group<?= count($form->get('question')->getMessages()) ? ' error' : '' ?>">
+                <label for="question" class="control-label">Вопрос</label>
+
+                <div class="controls">
+                    <?=$this->formElement($form->get('question')->setAttribute('id', 'question'))?>
+                    <span class="help-inline"><?=$this->formElementErrors($form->get('question'))?></span>
+                </div>
+            </div>
+
+            <? foreach ($form->get('answers') as $n => $fieldset): ?>
+                <fieldset>
+                    <legend>
+                        Ответ #<?= count($form->get('answers')) - $n; ?>
+                        <button type="button" class="close pull-right">&times;</button>
+                    </legend>
+
+                    <? foreach ($fieldset as $element): ?>
+                        <? /** @var $element \Zend\Form\Element */ ?>
+                        <div class="span3 control-group<?= count($element->getMessages()) ? ' error' : '' ?>">
+                            <label for="<?= $element->getName() ?>" class="control-label"><?=$element->getLabel()?></label>
+
+                            <div class="controls">
+                                <?=$this->formElement($element->setAttribute('id', $element->getName()))?>
+                                <span class="help-inline"><?=$this->formElementErrors($element)?></span>
+                            </div>
+                        </div>
+                    <? endforeach; ?>
+                </fieldset>
+            <? endforeach; ?>
+
+            <?
+            $template = '<fieldset><legend>Ответ #__next_index__<button type="button" class="close pull-right">&times;</button></legend>';
+            foreach ($form->get('answers')->getTemplateElement() as $element) {
+                $template .= '<div class="span3 control-group">';
+                $template .= "<label for=\"{$element->getName()}\" class=\"control-label\">{$element->getLabel()}</label>";
+                $template .= '<div class="controls">';
+                $template .= $this->formElement($element->setAttribute('id', $element->getName()));
+                $template .= "<span class=\"help-inline\">{$this->formElementErrors($element)}</span>";
+                $template .= '</div></div>';
+            }
+            $template .= '</fieldset';
+            ?>
+
+            <span data-template="<?= $this->escapeHtmlAttr($template); ?>"></span>
+
+            <?= $this->formHidden($form->get('csrf'))?>
+
+            <div class="form-actions">
+                <input class="btn green" type="submit" value="Отправить" />
+                <a class="btn blue" id="add-answer"><i class="icon-plus"></i> Добавить ещё один ответ</a>
+            </div>
+            <?= $this->form()->closeTag(); ?>
+        </div>
+    </div>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function () {
+        var $form = $('#answers');
+
+        $form.on('click', 'legend .close', function() {
+            $(this).closest('fieldset').remove();
+        });
+
+        $('#add-answer').click(function () {
+            var count = $('fieldset', $form).length;
+            var template = $form.find('*[data-template]').data('template').replace(/__index__/g, count).replace(/__next_index__/g, count + 1);
+
+            if (count > 0) {
+                $(template).insertAfter($form.find('fieldset').last());
+            } else {
+                $(template).insertBefore($form.find('*[data-template]'));
+            }
+
+            init($form.find('fieldset').last());
+        });
+
+        var init = function(container) {
+            container = container || $form;
+
+            $('select', container).each(function() {
+                $(this).select2({
+                    width: 220,
+                    minimumResultsForSearch: 25
+                });
+            });
+        };
+
+        init();
+    })();
+//</script>
+<? $this->headScript()->captureEnd() ?>

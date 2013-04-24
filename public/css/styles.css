@@ -1,0 +1,40 @@
+.form-inline legend+.control-group {
+    margin-top: 0;
+}
+
+.control-group.error .select2-choice {
+    border-color: #B94A48;
+}
+
+legend .close {
+    height: 40px;
+    font-size: 60px;
+}
+
+.table .text-center {
+    text-align: center;
+}
+
+.table thead th {
+    vertical-align: middle;
+}
+
+/*form fieldset > .row-fluid > .control-group {*/
+    /*float: left;*/
+/*}*/
+
+body > pre {
+    margin-top: 42px;
+}
+
+.nav > li > img {
+    padding: 5px;
+}
+
+.control-group > .controls:first-child {
+    margin-left: 0;
+}
+
+.row-fluid label:first-child + *[class*="span"] {
+    margin-left: 0;
+}

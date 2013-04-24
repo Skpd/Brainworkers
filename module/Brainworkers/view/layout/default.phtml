@@ -1,0 +1,153 @@
+<? /* @var $this \Zend\View\Renderer\PhpRenderer */ ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <?=$this->headTitle('Brainworkers')->setSeparator(' - ')?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?=$this->headMeta()?>
+
+    <? $this->headLink()->prependStylesheet($this->basePath('jquery.tzineClock/jquery.tzineClock.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('css/styles.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('css/select2.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/data-tables/DT_bootstrap.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/bootstrap-datepicker/css/datepicker.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/css/style_default.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/css/style_responsive.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/css/style.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/font-awesome/css/font-awesome.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/bootstrap/css/bootstrap-responsive.min.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/css/metro.css')); ?>
+    <? $this->headLink()->prependStylesheet($this->basePath('assets/bootstrap/css/bootstrap.min.css')); ?>
+
+    <?=$this->headLink()?>
+    <link rel="shortcut icon" href="<?=$this->basePath('favicon.ico')?>" />
+</head>
+<body class="fixed-top breakpoint-1280 <?= $this->placeholder('body-class'); ?>">
+    <div class="header navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <a href="<?= $this->url('home') ?>"><p class="brand">&nbsp;&nbsp;Brainworkers</p></a>
+            <?=$this->navigation('user-authorization')->menu()->setUlClass('nav pull-right')?>
+            <? if ($this->ZfcUserIdentity()): ?>
+                <ul class="nav pull-right">
+                    <li><?=$this->gravatar($this->ZfcUserIdentity()->getEmail(), array('img_size' => 32))?></li>
+                    <li><a href="<?=$this->url('zfcuser')?>"><?=$this->ZfcUserIdentity()?></a></li>
+                    <li class="divider-vertical"></li>
+                </ul>
+            <? endif; ?>
+        </div>
+    </div>
+
+    <div class="page-container row-fluid">
+        <div class="page-sidebar nav-collapse collapse">
+            <?=$this->navigation('navigation')->menu()->setUlClass('nav')->setMaxDepth(0)?>
+        </div>
+
+		<div class="page-content">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<h3 class="page-title">
+                            <?=$this->navigation('navigation')->breadcrumbs()->setMinDepth(0)->setLinkLast(true)->render();?>
+<!--                            --><?//\Zend\Debug\Debug::dump($this->navigation('user-authorization')->findActive('navigation', 0));?>
+                            <small><!-- description --></small></h3>
+					</div>
+				</div>
+				<? foreach ($this->FlashMessenger()->getErrorMessages() as $message): ?>
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Oh snap!</strong> <?= $message ?>
+                        </div>
+                    <? endforeach ?>
+
+                    <? foreach ($this->flashMessenger()->getSuccessMessages() as $message): ?>
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Well done!</strong> <?= $message ?>
+                        </div>
+                    <? endforeach ?>
+
+                    <? foreach ($this->flashMessenger()->getInfoMessages() as $message): ?>
+                        <div class="alert alert-info">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Heads up!</strong> <?= $message ?>
+                        </div>
+                    <? endforeach ?>
+					
+					<?=$this->content?>
+					</div>
+			 </div>
+            </div>
+
+        </div>
+    </div>
+
+<?// if (
+//    $this->isAllowed('pages', 'edit')
+//    && $this->viewModel()->getCurrent()->hasChildren()
+//    && $this->viewModel()->getCurrent()->getChildren()[0]->getVariable('static')
+//): ?>
+<!--    <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>-->
+<!--    <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/vendor/jquery-1.7.2.js"></script>-->
+<!--    <script src="http://cdn.aloha-editor.org/latest/lib/aloha.js" data-aloha-plugins="-->
+<!--        common/align,-->
+<!--        common/format,-->
+<!--        common/list,-->
+<!--        common/table,-->
+<!--        common/link,-->
+<!--        common/image,-->
+<!--        common/highlighteditables"-->
+<!--    >-->
+<!--    </script>-->
+<!--    <link href="http://cdn.aloha-editor.org/latest/css/aloha.css" rel="stylesheet" type="text/css" />-->
+<!--    <script type="text/javascript">-->
+<!--        Aloha.ready(function () {-->
+<!--            var $ = Aloha.jQuery;-->
+<!--            $('.content').aloha();-->
+<!--            Aloha.bind('aloha-editable-deactivated', function(){-->
+<!--                var content = Aloha.activeEditable.getContents();-->
+<!--                var pageTemplate = '--><?//=$this->viewModel()->getCurrent()->getChildren()[0]->getTemplate()?><!--';-->
+<!---->
+<!--                $.post('--><?//=$this-> url('save-page')?><!--', {content: content, page: pageTemplate});-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+<!---->
+<?// endif; ?>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter20651515 = new Ya.Metrika({id:20651515,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/20651515" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<? $this->headScript()->prependFile($this->basePath('script.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('js/common.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('jquery.tzineClock/jquery.tzineClock.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('assets/bootstrap-datepicker/js/bootstrap-datepicker.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('js/select2_locale_ru.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('js/select2.min.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('js/bootstrap.min.js')) ?>
+<? $this->headScript()->prependFile($this->basePath('js/jquery-1.9.1.min.js')) ?>
+<?=$this->headScript()?>
+</body>
+</html>

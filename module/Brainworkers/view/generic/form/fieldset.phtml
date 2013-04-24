@@ -1,0 +1,23 @@
+<? /** @var $collection \Zend\Form\Fieldset */ ?>
+
+<div class="<?=empty($class) ? 'row-fluid' : $class?>">
+    <?php
+    foreach ($collection as $element) {
+        if ($element instanceof \Zend\Form\Element\Collection) {
+            echo $this->partial('generic/form/collection.phtml', array('collection' => $element));
+
+            if ($element->shouldCreateTemplate()) {
+                echo'<span data-for="' . $element->getName() . '" data-template="' . $this->escapeHtmlAttr(
+                    $this->partial('generic/form/collection.phtml', array('collection' => $element->getTemplateElement()))
+                ) . '"></span>';
+            }
+        } else {
+            if ($element instanceof \Zend\Form\Fieldset) {
+                echo $this->partial('generic/form/fieldset.phtml', array('collection' => $element));
+            } else {
+                echo $this->partial('generic/form/element.phtml', array('element' => $element));
+            }
+        }
+    }
+    ?>
+</div>

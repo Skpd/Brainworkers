@@ -1,0 +1,49 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $answers \Brainworkers\Entity\Answer[]
+ */
+?>
+
+<div id="placeholder">
+
+</div>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function() {
+        var $container = $('#placeholder');
+
+        var update = function() {
+            $.get('<?=$this->url('answer/stream')?>', function(r) {
+                $container.empty();
+
+                for (var i = 0; i < r.answers.length; i++) {
+                    var record = r.answers[i];
+
+                    $container.append(
+                        '<div class="row-fluid">' +
+                            '<div class="span4">' + record.question.name + '</div> ' +
+                            '<div class="span4">' + record.content + '</div>' +
+                            '<div class="span4">' +
+                                '<a class="btn green update-answer" data-resolution="1" data-id="' + record.id + '" href="javascript:void(0)">' +
+                                    '<i class="icon-check icon-white"></i> Да</a> ' +
+                                '<a class="btn red update-answer" data-resolution="0" data-id="' + record.id + '" href="javascript:void(0)">' +
+                                    '<i class="icon-ban-circle icon-white"></i> Нет</a>' +
+                            '</div>' +
+                        '</div><br />'
+                    );
+                }
+            }, 'json');
+        };
+
+        $container.on('click', '.update-answer', function() {
+            $.post('<?=$this->url('answer/update')?>/' + $(this).data('id'), {resolution: $(this).data('resolution')});
+            $(this).closest('.row').remove();
+        });
+
+        update();
+        setInterval(update, 3000);
+    })();
+//</script>
+<? $this->headScript()->captureEnd() ?>

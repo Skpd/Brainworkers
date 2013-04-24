@@ -1,0 +1,49 @@
+<h3 class="page-title">
+                            <a href="/user/register">Регистрация</a><!--                            -->                            <small><!-- description --></small></h3>
+
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $form \User\Form\Register
+ */
+?>
+
+<? $form = $this->registerForm->prepare()->setAttribute('action', $this->url('zfcuser/register'))->setAttribute('method', 'post')->setAttribute('id', 'register-form')->setAttribute('class', 'form-horizontal'); ?>
+<?= $this->form()->openTag($form); ?>
+
+    <div class="row">
+    <? foreach ($form as $element): ?>
+        <? if ($element instanceof \Zend\Form\Element\Button): ?>
+        </div>
+        <div class="row-fluid">
+            <div class="form-actions">
+                <input class="btn green" type="submit" value="Регистрация" name="submit" />
+            </div>
+        </div>
+        <? else: ?>
+            <? /** @var $element \Zend\Form\Element */ ?>
+            <div class="span5 control-group<?= count($element->getMessages()) ? ' error' : '' ?>">
+                <label for="<?= $element->getName() ?>" class="control-label"><?=$element->getLabel()?></label>
+
+                <div class="controls">
+                    <?=$this->formElement($element->setAttribute('id', $element->getName()))?>
+                    <span class="help-inline"><?=$this->formElementErrors($element)?></span>
+                </div>
+            </div>
+        <? endif; ?>
+    <? endforeach; ?>
+
+<?= $this->form()->closeTag(); ?>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function () {
+        $('#gender').select2({width: 220});
+        $('#city').select2({
+            width: 220,
+            minimumResultsForSearch: 25,
+            minimumInputLength: 3
+        });
+    })();
+    //</script>
+<? $this->headScript()->captureEnd() ?>

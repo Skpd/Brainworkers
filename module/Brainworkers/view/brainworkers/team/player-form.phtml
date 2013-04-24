@@ -1,0 +1,31 @@
+<?
+/**
+ * @var $this     \Zend\View\Renderer\PhpRenderer
+ * @var $fieldset \Zend\Form\Fieldset
+ */
+?>
+
+<fieldset>
+    <legend>Игрок №<?=$number?></legend>
+
+    <div class="row-fluid">
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('surname'))) ?></div>
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('name'))) ?></div>
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('patronymic'))) ?></div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('ranking'))) ?></div>
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('flag'))) ?></div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('birthDate'))) ?></div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('email'))) ?></div>
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('vk'))) ?></div>
+        <div class="span3"><?= $this->partial('generic/form/element.phtml', array('element' => $fieldset->get('user'))) ?></div>
+    </div>
+</fieldset>

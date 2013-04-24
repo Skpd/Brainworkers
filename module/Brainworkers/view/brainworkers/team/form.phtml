@@ -1,0 +1,62 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $form \Zend\Form\Form
+ */
+?>
+
+<div class="row-fluid">
+    <div class="span12">
+        <? $form->setAttribute('class', 'form-horizontal')->prepare(); ?>
+        <?= $this->form()->openTag($form); ?>
+
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('name'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('makId'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('city'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('contactEmail'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('trainer'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('trainerEmail'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('contacts'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('organization'), 'size' => 'xlarge')); ?>
+        <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('whence'), 'size' => 'xlarge')); ?>
+
+
+        <fieldset name="<?= $form->get('team')->get('players')->getName() ?>">
+            <legend>
+                <?=$form->get('team')->get('players')->getLabel()?>
+                <? if ($form->get('team')->get('players')->shouldCreateTemplate()): ?>
+                    <a data-template-for="<?= $form->get('team')->get('players')->getName() ?>"
+                       class="template-remove btn red-stripe pull-right"
+                       href="javascript:void(0)"
+                        ><i class="icon-minus-sign"></i></a>
+                    <a data-template-for="<?= $form->get('team')->get('players')->getName() ?>"
+                       data-template-key="<?= $form->get('team')->get('players')->getTemplatePlaceholder() ?>"
+                       class="template-add btn green-stripe pull-right"
+                       href="javascript:void(0)"
+                        ><i class="icon-plus-sign"></i></a>
+                <? endif; ?>
+            </legend>
+            <div class="collection-container">
+                <? foreach ($form->get('team')->get('players') as $n => $fieldset): ?>
+                    <?= $this->partial('brainworkers/team/player-form.phtml', array('fieldset' => $fieldset, 'number' => $form->get('team')->get('players')->count() - $n)) ?>
+                <? endforeach; ?>
+            </div>
+        </fieldset>
+
+        <? $template = $this->partial(
+            'brainworkers/team/player-form.phtml',
+            array(
+                 'fieldset' => $form->get('team')->get('players')->getTemplateElement(),
+                 'number'   => '__count_placeholder__'
+            )
+        ); ?>
+
+        <span data-for="<?= $form->get('team')->get('players')->getName() ?>" data-template="<?= $this->escapeHtmlAttr($template); ?>"></span>
+
+        <div class="form-actions">
+            <input class="btn green" type="submit" value="Отправить" />
+            <a href="<?= $this->url('team/list') ?>" class="btn red">Cancel</a>
+        </div>
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $places \Brainworkers\Entity\Place[]
+ */
+?>
+
+<div class="row-fluid">
+    <div class="span12">
+        <table class="table table-striped table-bordered table-advance table-hover" id="teams-table">
+            <thead>
+            <tr>
+                <th>Страна</th>
+                <th>Город</th>
+                <th>Команды</th>
+                <th>Представитель</th>
+                <th class="span7">Действия</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <td colspan="7">
+                    <a class="btn green" href="<?=$this->url('place/add')?>">
+                        <i class="icon-plus-sign icon-white"></i>
+                        Добавить Площадку
+                    </a>
+                </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <? foreach($places as $place): ?>
+                <tr>
+                    <td><?=$place->getCity() ? $place->getCity()->getCountry() : ''?></td>
+                    <td><?=$place->getCity()?></td>
+                    <td><?=$place->getTeams()->count()?> / <?=$place->getTeamsMax()?></td>
+                    <td><?=$place->getOwner()?></td>
+                    <td>
+                        <? if ($this->isAllowed('team', 'assign')): ?>
+                            <a class="btn green" href="<?=$this->url('team/assign-to', array('placeId' => $place->getId()))?>">
+                                <i class="icon-plus icon-white"></i>
+                                Привязать
+                            </a>
+                        <? endif; ?>
+
+                        <? if ($this->isAllowed('place', 'list')): ?>
+                            <a class="btn blue" href="<?=$this->url('place/show', array('id' => $place->getId()))?>">
+                                <i class="icon-book"></i>
+                                Профиль
+                            </a>
+                        <? endif; ?>
+
+                        <? if ($this->isAllowed('place', 'edit') || ($place->getOwner() && $place->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+                            <a class="btn blue" href="<?=$this->url('place/edit', array('id' => $place->getId()))?>">
+                                <i class="icon-edit"></i>
+                                Редактировать
+                            </a>
+                        <? endif; ?>
+
+                        <? if ($this->isAllowed('place', 'delete') || ($place->getOwner() && $place->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+                            <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('place/delete', array('id' => $place->getId()))?>">
+                                <i class="icon-minus-sign icon-white"></i>
+                                Удалить
+                            </a>
+                        <? endif; ?>
+
+
+                    </td>
+                </tr>
+            <? endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<? $this->headLink()->appendStylesheet($this->basePath('assets/data-tables/DT_bootstrap.css')) ?>
+<? $this->headScript()->appendFile($this->basePath('assets/data-tables/jquery.dataTables.js')) ?>
+<? $this->headScript()->appendFile($this->basePath('assets/data-tables/DT_bootstrap.js')) ?>
+<? $this->headScript()->appendFile($this->basePath('js/jquery/data-tables/datatables.js')) ?>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    (function() {
+        $('#teams-table').dataTable();
+    })();
+//</script>
+<? $this->headScript()->captureEnd() ?>

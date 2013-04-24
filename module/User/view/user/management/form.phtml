@@ -1,0 +1,33 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $form \Zend\Form\Form
+ */
+?>
+<form class="form-horizontal" action="" method="POST" name="user" id="user">
+    <div class="row-fluid">
+        <? foreach ($form as $element): ?>
+            <? /** @var $element \Zend\Form\Element */ ?>
+            <div class="control-group<?= count($element->getMessages()) ? ' error' : '' ?>">
+                <label for="<?= $element->getName() ?>" class="control-label"><?=$element->getLabel() ?: ucfirst($element->getName())?></label>
+
+                <div class="controls">
+				
+                    <?=$this->formElement($element->setAttribute('id', $element->getName()))?>
+                    <span class="help-inline"><?=$this->formElementErrors($element)?></span>
+                </div>
+            </div>
+        <? endforeach; ?>
+    </div>
+    <div class="form-actions">
+        <input type="submit" name="submit" value="Submit" class="btn green" />
+        <a href="<?= $this->url('user/list') ?>" class="btn red">Cancel</a>
+    </div>
+<?=$this->form()->closeTag($form)?>
+
+<? $this->headScript()->captureStart() ?>
+//<script type="text/javascript">
+    $('#userRoles').select2({width: 220, placeholder: 'Select roles'});
+    $('#city').select2({width: 220, placeholder: 'Select city', minimumInputLength: 3});
+//</script>
+<? $this->headScript()->captureEnd() ?>

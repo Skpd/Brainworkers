@@ -1,0 +1,49 @@
+<?
+/**
+ * @var $this \Zend\View\Renderer\PhpRenderer
+ * @var $teams \Brainworkers\Entity\Team[]
+ * @var $questions \Brainworkers\Entity\Question[]
+ */
+?>
+		<table class="table table-striped table-bordered table-advance table-hover">
+			<thead>
+				<tr>
+					<th rowspan="2">Team</th>
+					<th rowspan="2">Points</th>
+					<th class="text-center" colspan="<?=count($questions)?>">Questions</th>
+				</tr>
+				<tr>
+					<? foreach ($questions as $question): ?>
+						<th><?=$question->getName()?></th>
+					<? endforeach; ?>
+				</tr>
+			</thead>
+			<tbody>
+				<? foreach ($teams as $n => $team): ?>
+					<tr>
+						<td>
+							<?=$team[0]->getName()?>
+						</td>
+						<td><?=$team['points']?></td>
+						<? foreach ($team[0]->getAnswers() as $answer): ?>
+								<? if ($answer->getResolution() === true): ?>
+									<td>
+										<span class="label label-success">1</span>
+									</td>
+								<? elseif ($answer->getResolution() === false): ?>
+									<td>
+										0
+									</td>
+								<? else: ?>
+									<td>
+										<span class="label label-info">*</span>
+									</td>
+								<? endif;?>
+						<? endforeach; ?>
+						<? for ($i = count($team[0]->getAnswers()); $i < count($questions); $i++): ?>
+							<td>0</td>
+						<? endfor; ?>
+					</tr>
+				<? endforeach; ?>
+			</tbody>
+		</table>

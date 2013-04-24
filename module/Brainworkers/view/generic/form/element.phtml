@@ -1,0 +1,15 @@
+<? /** @var $element \Zend\Form\Element */ ?>
+<? $element->setAttribute('id', $element->getAttribute('id') ?: $element->getName()); ?>
+<?// $element->setLabel($element->getLabel() ?: ucfirst($element->getName())); ?>
+
+<div class="control-group<?= count($element->getMessages()) ? ' error' : '' ?>">
+    <? if ($element->getLabel()): ?>
+        <label for="<?= $element->getAttribute('id') ?>" class="control-label"><?=$element->getLabel()?></label>
+    <? endif;?>
+
+    <div class="controls">
+        <? if(!empty($size)) $element->setAttribute('class', $element->getAttribute('class') . ' input-' . $size); ?>
+        <?=$this->formElement($element)?>
+        <span class="help-inline"><?=$this->formElementErrors($element)?></span>
+    </div>
+</div>
