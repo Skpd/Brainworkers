@@ -26,13 +26,15 @@ class IndexController extends AbstractActionController
             case 'country';
             case 'region';
             case 'city';
-                $entity      = 'Brainworkers\Entity\\' . ucfirst($type);
-                $searchField = array('name');
+                $entity       = 'Brainworkers\Entity\\' . ucfirst($type);
+                $searchField  = array('name');
+                $resultMethod = 'getName';
                 break;
 
             case 'user':
                 $entity      = 'User\Entity\User';
                 $searchField = array('name', 'surname', 'patronymic');
+                $resultMethod = 'getDisplayName';
                 break;
 
             default:
@@ -60,7 +62,7 @@ class IndexController extends AbstractActionController
         foreach ($builder->getQuery()->getResult() as $entity) {
             $result[] = array(
                 'id'   => $entity->getId(),
-                'name' => $entity->__toString(),
+                'name' => $entity->{$resultMethod}(),
             );
         }
 

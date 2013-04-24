@@ -6,7 +6,11 @@
     ;
     var initDefaultElements = function() {
         $('input.remote-dropdown').each(function () {
-            var $element = $(this);
+            var $element = $(this),
+                keyField = $element.data('key-field') || 'id',
+                valueField = $element.data('value-field') || 'name',
+                key = $element.data('key') || 'result'
+            ;
             $element.select2({
                 placeholder: $element.data('label') || $element.val() || "Поиск" ,
                 width: 220,
@@ -21,16 +25,16 @@
                         params = {query: id}
                     }
 
-                    $.get($element.data('url'), params, function(r) {
-                        callback(r);
+                    $.get($element.data('url'), params, function(data) {
+                        var results = [];
+                        if ( data && data[key]) {
+                            for (var i = 0; i < data[key].length; i++) {
+                                results.push({id: data[key][i][keyField], text: data[key][i][valueField]});
+                            }
+                        }
+                        callback(results[0]);
                     }, 'json');
                 },
-//                formatSelection: function(data) {
-//                    console.log(data);
-//                    if (data.result) {
-//                        return data.result[0].name;
-//                    }
-//                },
                 ajax: {
                     url: $(this).data('url'),
                     dataType: 'json',
@@ -40,12 +44,7 @@
                         }
                     },
                     results: function (data) {
-                        var
-                            results = [],
-                            keyField = $element.data('key-field') || 'id',
-                            valueField = $element.data('value-field') || 'name',
-                            key = $element.data('key') || 'result'
-                            ;
+                        var results = [];
 
                         if ( data && data[key] ) {
                             for ( var i in data[key] ) {

@@ -183,7 +183,7 @@ class User implements UserInterface, RoleProviderInterface
 
     public function __toString()
     {
-        return $this->getSurname() . ' ' . $this->getName() . ' ' . $this->getPatronymic();
+        return (string) $this->id;
     }
 
     #region Getters / Setters
@@ -272,7 +272,7 @@ class User implements UserInterface, RoleProviderInterface
      */
     public function getDisplayName()
     {
-        return $this->displayName;
+        return $this->getSurname() . ' ' . $this->getName() . ' ' . $this->getPatronymic();
     }
 
     /**
