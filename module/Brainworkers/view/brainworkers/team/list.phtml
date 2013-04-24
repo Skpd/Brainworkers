@@ -7,6 +7,56 @@
 
 <div class="row-fluid">
     <div class="span12">
+
+        <? if ($this->ZfcUserIdentity() && count($this->ZfcUserIdentity()->getTeams()) >= 1): ?>
+            <div class="hero-unit">
+                <h2>Ваша Команда</h2>
+
+                <? foreach($this->ZfcUserIdentity()->getTeams() as $team): ?>
+                    <? /** @var $team \Brainworkers\Entity\Team */ ?>
+                    <p><?=$team->getName()?>, <?=$team->getCaptain()->first()?></p>
+
+                    <? if($team->getPlace()): ?>
+                        <p>Площадка: <?=$team->getPlace()->getAddress()?></p>
+                    <? else: ?>
+                        <p>Не привязана к площадке</p>
+                    <? endif; ?>
+
+                    <? if($team->getPayed()): ?>
+                        <p>Оплачено</p>
+                    <? else: ?>
+                        <p>Не оплачено</p>
+                    <? endif; ?>
+
+                    <p>
+                        <? if ($this->isAllowed('team', 'list')): ?>
+                            <a class="btn blue" href="<?=$this->url('team/show', array('id' => $team->getId()))?>">
+                                Профиль
+                            </a>
+                        <? endif; ?>
+
+                        <? if (!$team->getPayed()): ?>
+                            <?=$this->render('generic/payment/team.phtml')?>
+                        <? endif; ?>
+
+                        <? if ($this->isAllowed('team', 'edit') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+                            <a class="btn blue" href="<?=$this->url('team/edit', array('id' => $team->getId()))?>">
+                                <i class="icon-edit"></i>
+                                Редактировать
+                            </a>
+                        <? endif; ?>
+
+                        <? if ($this->isAllowed('team', 'delete') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+                            <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('team/delete', array('id' => $team->getId()))?>">
+                                <i class="icon-minus-sign icon-white"></i>
+                                Удалить
+                            </a>
+                        <? endif; ?>
+                    </p>
+                <? endforeach; ?>
+            </div>
+        <? endif; ?>
+
         <table class="table table-striped table-bordered table-advance table-hover" id="teams-table">
             <thead>
             <? if ($this->isAllowed('team', 'add') && $this->ZfcUserIdentity() && count($this->ZfcUserIdentity()->getTeams()) < 1): ?>
