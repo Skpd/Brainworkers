@@ -5,6 +5,17 @@
  */
 ?>
 
-How to display team with name <?=$team->getName()?>?
+<p><?=$team->getName()?></p>
+<p><a href="http://ratingnew.chgk.info/teams.php?displayteam=<?=$team->getMakId()?>">Рейтинг МАК</a></p>
+<p><?=$team->getCity() ? $team->getCity()->getName() : ''?></p>
+<p><?=$team->getTrainer()?></p>
+<p><?=$team->getOrganization()?></p>
+<p><?=$team->getCaptain()->first()?></p>
+<p><?=$team->getPlace() ? $team->getPlace()->getAddress() : ''?></p>
+<p><?=$team->getPayed() ? 'Оплачено' : 'Не оплачено'?></p>
 
-<?=$this->render('generic/payment/team.phtml')?>
+<? if (!$team->getPayed() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId()): ?>
+        <?=$this->render('generic/payment/team.phtml')?>
+<? endif; ?>
+
+

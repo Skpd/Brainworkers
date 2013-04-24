@@ -7,9 +7,10 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <? $form->setAttribute('class', 'form-horizontal')->prepare(); ?>
+        <? $form->prepare(); ?>
         <?= $this->form()->openTag($form); ?>
 
+        <fieldset class="form-horizontal">
         <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('name'), 'size' => 'xlarge')); ?>
         <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('makId'), 'size' => 'xlarge')); ?>
         <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('city'), 'size' => 'xlarge')); ?>
@@ -19,8 +20,7 @@
         <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('contacts'), 'size' => 'xlarge')); ?>
         <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('organization'), 'size' => 'xlarge')); ?>
         <?= $this->partial('generic/form/element.phtml', array('element' => $form->get('team')->get('whence'), 'size' => 'xlarge')); ?>
-
-
+        </fieldset>
         <fieldset name="<?= $form->get('team')->get('players')->getName() ?>">
             <legend>
                 <?=$form->get('team')->get('players')->getLabel()?>
