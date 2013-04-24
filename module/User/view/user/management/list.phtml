@@ -36,7 +36,7 @@
                     <td><?=$user->getSurname()?></td>
                     <td><?=$user->getName()?></td>
                     <td><?=$user->getPatronymic()?></td>
-                    <td><?=$user->getCity()?></td>
+                    <td><?=$user->getCity() ? $user->getCity()->getName() : ''?></td>
                     <td><?=implode(', ', $user->getRoles())?></td>
                     <td>
                         <a class="btn blue" href="<?=$this->url('user/edit', array('id' => $user->getId()))?>">

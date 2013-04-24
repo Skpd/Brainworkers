@@ -35,8 +35,8 @@
                 <tr>
                     <td><?=$team->getId()?></td>
                     <td><?=$team->getName()?></td>
-                    <td><?=$team->getCountry()?></td>
-                    <td><?=$team->getCity()?></td>
+                    <td><?=$team->getCountry() ? $team->getCountry()->getName() : ''?></td>
+                    <td><?=$team->getCity() ? $team->getCity()->getName() : ''?></td>
                     <td><?=$team->getCaptain()->first()?></td>
                     <td>
                         <? if ($this->isAllowed('team', 'list')): ?>
