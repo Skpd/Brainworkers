@@ -8,8 +8,8 @@ return array(
                     'host'     => 'localhost',
                     'port'     => '3306',
                     'user'     => 'root',
-                    'password' => 'YJXudFtFxpen3qmT',
-                    'dbname'   => 'br2',
+                    'password' => 'ix0WS3Zp',
+                    'dbname'   => 'brainworkers',
                     'charset'  => 'utf8',
                 )
             )

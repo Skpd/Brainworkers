@@ -2,8 +2,8 @@
 return array(
     'modules' => array(
         'StaticPages',
-        'BjyProfiler',
-        'ZendDeveloperTools',
+//        'BjyProfiler',
+//        'ZendDeveloperTools',
         'DoctrineModule',
         'DoctrineORMModule',
 //        'ZfcTwitterBootstrap',
