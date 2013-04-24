@@ -18,4 +18,18 @@
         <?=$this->render('generic/payment/team.phtml')?>
 <? endif; ?>
 
+<p>
+    <? if ($this->isAllowed('team', 'edit') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+        <a class="btn blue" href="<?=$this->url('team/edit', array('id' => $team->getId()))?>">
+            <i class="icon-edit"></i>
+            Редактировать
+        </a>
+    <? endif; ?>
 
+    <? if ($this->isAllowed('team', 'delete') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+        <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('team/delete', array('id' => $team->getId()))?>">
+            <i class="icon-minus-sign icon-white"></i>
+            Удалить
+        </a>
+    <? endif; ?>
+</p>

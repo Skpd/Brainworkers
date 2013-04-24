@@ -75,7 +75,7 @@
                 <th>Страна</th>
                 <th>Город</th>
                 <th>Капитан</th>
-                <th class="span5">Действия</th>
+                <th class="span3">Действия</th>
             </tr>
             </thead>
             <? if ($this->isAllowed('team', 'add') && $this->ZfcUserIdentity() && count($this->ZfcUserIdentity()->getTeams()) < 1): ?>
@@ -104,20 +104,6 @@
                                 Профиль
                             </a>
                         <? endif; ?>
-
-                        <? if ($this->isAllowed('team', 'edit') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
-                            <a class="btn blue" href="<?=$this->url('team/edit', array('id' => $team->getId()))?>">
-                                <i class="icon-edit"></i>
-                                Редактировать
-                            </a>
-                        <? endif; ?>
-
-                        <? if ($this->isAllowed('team', 'delete') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
-                            <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('team/delete', array('id' => $team->getId()))?>">
-                                <i class="icon-minus-sign icon-white"></i>
-								Удалить
-                            </a>
-                        <? endif; ?>
                     </td>
                 </tr>
             <? endforeach; ?>
@@ -134,7 +120,9 @@
 <? $this->headScript()->captureStart() ?>
 //<script type="text/javascript">
     (function() {
-        $('#teams-table').dataTable();
+        $('#teams-table').dataTable({
+            iDisplayLength: 100
+        });
     })();
 //</script>
 <? $this->headScript()->captureEnd() ?>

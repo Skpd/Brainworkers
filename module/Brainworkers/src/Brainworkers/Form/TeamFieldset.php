@@ -58,7 +58,7 @@ class TeamFieldset extends Fieldset implements InputFilterProviderInterface, Ser
                 )
             ),
             'trainer'      => array(
-                'required' => false,
+                'required'   => false,
                 'validators' => array(
                     array('name' => 'StringLength', 'options' => array('max' => 64)),
                 ),
@@ -68,7 +68,7 @@ class TeamFieldset extends Fieldset implements InputFilterProviderInterface, Ser
                 )
             ),
             'trainerEmail' => array(
-                'required' => false,
+                'required'   => false,
                 'validators' => array(
                     array('name' => 'StringLength', 'options' => array('max' => 64)),
                     array('name' => 'EmailAddress'),
@@ -79,7 +79,7 @@ class TeamFieldset extends Fieldset implements InputFilterProviderInterface, Ser
                 )
             ),
             'contacts'     => array(
-                'required' => false,
+                'required'   => false,
                 'validators' => array(
                     array('name' => 'StringLength', 'options' => array('max' => 64)),
                 ),
@@ -100,7 +100,7 @@ class TeamFieldset extends Fieldset implements InputFilterProviderInterface, Ser
                 )
             ),
             'organization' => array(
-                'required' => false,
+                'required'   => false,
                 'validators' => array(
                     array('name' => 'StringLength', 'options' => array('max' => 64)),
                 ),
@@ -143,7 +143,27 @@ class TeamFieldset extends Fieldset implements InputFilterProviderInterface, Ser
         $this->add(array('name' => 'contacts', 'options' => array('label' => 'Контактные данные тренера')));
         $this->add(array('name' => 'contactEmail', 'options' => array('label' => 'E-mail для связи с командой'), 'attributes' => array('required' => true)));
         $this->add(array('name' => 'organization', 'options' => array('label' => 'Организация, на базе которой создана команда')));
-        $this->add(array('name' => 'whence', 'options' => array('label' => 'Откуда Вы узнали о турнире?'), 'attributes' => array('required' => true)));
+
+        $this->add(
+            array(
+                 'type'       => 'select',
+                 'name'       => 'whence',
+                 'options'    => array(
+                     'label'   => 'Откуда Вы узнали о турнире?',
+                     'options' => array(
+                         'Рекомендация друзей'                                => 'От организатора игр ЧГК в своем городе (представителя)',
+                         'Объявление в Livejournal'                           => 'Объявление в Livejournal',
+                         'Получил приглашение играть от Оргкомитета на почту' => 'Получил приглашение играть от Оргкомитета на почту',
+                         'Группа ЧГК своего города в социальной сети'         => 'Группа ЧГК своего города в социальной сети',
+                         'Группа, посвященная мероприятиям в моем городе'     => 'Группа, посвященная мероприятиям в моем городе',
+                         'Группа или афиша в моей школе или вузе'             => 'Группа или афиша в моей школе или вузе',
+                         'Комитет по делам молодежи'                          => 'Комитет по делам молодежи',
+                         'Другое'                                             => 'Другое',
+                     )
+                 ),
+                 'attributes' => array('required' => true, 'id' => 'whence')
+            )
+        );
 
         $this->add(
             array(

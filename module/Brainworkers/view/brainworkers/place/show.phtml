@@ -6,3 +6,26 @@
 ?>
 
 How to display place with address <?=$place->getAddress()?>?
+
+<p>
+    <? if ($this->isAllowed('team', 'assign')): ?>
+        <a class="btn green" href="<?=$this->url('team/assign-to', array('placeId' => $place->getId()))?>">
+            <i class="icon-plus icon-white"></i>
+            Привязать
+        </a>
+    <? endif; ?>
+
+    <? if ($this->isAllowed('place', 'edit') || ($place->getOwner() && $place->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+        <a class="btn blue" href="<?=$this->url('place/edit', array('id' => $place->getId()))?>">
+            <i class="icon-edit"></i>
+            Редактировать
+        </a>
+    <? endif; ?>
+
+    <? if ($this->isAllowed('place', 'delete') || ($place->getOwner() && $place->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+        <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('place/delete', array('id' => $place->getId()))?>">
+            <i class="icon-minus-sign icon-white"></i>
+            Удалить
+        </a>
+    <? endif; ?>
+</p>
