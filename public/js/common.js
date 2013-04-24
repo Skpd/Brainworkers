@@ -69,7 +69,7 @@
 
     $('body').on('click', '.template-add', function () {
         var $fieldset = $('fieldset[name="' + $(this).data('template-for') + '"]');
-        var count = $fieldset.find('>*').length - 1;
+        var count = $fieldset.find('.collection-container > *').length;
         var regex = new RegExp($(this).data('template-key'), 'ig');
         var template = $('*[data-for="' + $(this).data('template-for') + '"]').data('template').replace(regex, count).replace(/__count_placeholder__/ig, count+1);
 
