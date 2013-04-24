@@ -30,10 +30,10 @@
             <tbody>
             <? foreach($places as $place): ?>
                 <tr>
-                    <td><?=$place->getCity() ? $place->getCity()->getCountry() : ''?></td>
-                    <td><?=$place->getCity()?></td>
+                    <td><?=$place->getCity() && $place->getCity()->getCountry() ? $place->getCity()->getCountry()->getName() : ''?></td>
+                    <td><?=$place->getCity() ? $place->getCity()->getName() : ''?></td>
                     <td><?=$place->getTeams()->count()?> / <?=$place->getTeamsMax()?></td>
-                    <td><?=$place->getOwner()?></td>
+                    <td><?=$place->getOwner() ? $place->getOwner()->getDisplayName() : ''?></td>
                     <td>
                         <? if ($this->isAllowed('team', 'assign')): ?>
                             <a class="btn green" href="<?=$this->url('team/assign-to', array('placeId' => $place->getId()))?>">
