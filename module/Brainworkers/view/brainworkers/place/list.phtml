@@ -14,7 +14,7 @@
                 <th>Город</th>
                 <th>Команды</th>
                 <th>Представитель</th>
-                <th class="span7">Действия</th>
+                <th class="span3">Действия</th>
             </tr>
             </thead>
             <tfoot>
@@ -35,35 +35,12 @@
                     <td><?=$place->getTeams()->count()?> / <?=$place->getTeamsMax()?></td>
                     <td><?=$place->getOwner() ? $place->getOwner()->getDisplayName() : ''?></td>
                     <td>
-                        <? if ($this->isAllowed('team', 'assign')): ?>
-                            <a class="btn green" href="<?=$this->url('team/assign-to', array('placeId' => $place->getId()))?>">
-                                <i class="icon-plus icon-white"></i>
-                                Привязать
-                            </a>
-                        <? endif; ?>
-
                         <? if ($this->isAllowed('place', 'list')): ?>
                             <a class="btn blue" href="<?=$this->url('place/show', array('id' => $place->getId()))?>">
                                 <i class="icon-book"></i>
                                 Профиль
                             </a>
                         <? endif; ?>
-
-                        <? if ($this->isAllowed('place', 'edit') || ($place->getOwner() && $place->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
-                            <a class="btn blue" href="<?=$this->url('place/edit', array('id' => $place->getId()))?>">
-                                <i class="icon-edit"></i>
-                                Редактировать
-                            </a>
-                        <? endif; ?>
-
-                        <? if ($this->isAllowed('place', 'delete') || ($place->getOwner() && $place->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
-                            <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('place/delete', array('id' => $place->getId()))?>">
-                                <i class="icon-minus-sign icon-white"></i>
-                                Удалить
-                            </a>
-                        <? endif; ?>
-
-
                     </td>
                 </tr>
             <? endforeach; ?>
@@ -80,7 +57,9 @@
 <? $this->headScript()->captureStart() ?>
 //<script type="text/javascript">
     (function() {
-        $('#teams-table').dataTable();
+        $('#teams-table').dataTable({
+            iDisplayLength: 100
+        });
     })();
 //</script>
 <? $this->headScript()->captureEnd() ?>
