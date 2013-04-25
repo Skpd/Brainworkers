@@ -314,6 +314,7 @@ return array(
                 'team'       => array(),
                 'place'      => array(),
                 'standings'  => array(),
+                'live'  => array(),
             ),
         ),
         'rule_providers'     => array(
@@ -336,6 +337,7 @@ return array(
                     array(array('admin'), 'place', 'edit'),
                     array(array('admin'), 'place', 'delete'),
                     array(array('admin', 'jury'), 'standings'),
+                    array(array('admin', 'operator'), 'live'),
                 ),
                 'deny'  => array(),
             ),
@@ -484,6 +486,11 @@ return array(
                 'label'    => 'Спорные ответы',
                 'route'    => 'answer/stream',
                 'resource' => 'resolution'
+            ),
+            array(
+                'label'    => 'Live',
+                'uri'    => '/live',
+                'resource' => 'live'
             ),
             array(
                 'label' => 'О проекте',
