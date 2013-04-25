@@ -98,6 +98,20 @@ class Place
     private $approved = 0;
     #endregion
 
+    public function getCountryName()
+    {
+        if ($this->getCity() && $this->getCity()->getCountry()) {
+            return $this->getCity()->getCountry()->getName();
+        }
+
+        return '';
+    }
+
+    public function getCityName()
+    {
+        return $this->getCity() ? $this->getCity()->getName() : '';
+    }
+
     /** @ORM\PrePersist */
     public function onPrePersist()
     {
