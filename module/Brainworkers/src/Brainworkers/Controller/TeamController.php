@@ -43,15 +43,15 @@ class TeamController extends AbstractActionController
                     $this->getEntityManager()->persist($team);
                     $this->getEntityManager()->flush();
 
-                    $this->flashMessenger()->addSuccessMessage('Team assigned successfully');
+                    $this->flashMessenger()->addSuccessMessage("Команда '{$team->getName()}' успешно привязана к площадке");
                 } else {
-                    $this->flashMessenger()->addErrorMessage('Limit reached.');
+                    $this->flashMessenger()->addErrorMessage('Достигнут лимит команд!');
                 }
             } else {
-                $this->flashMessenger()->addErrorMessage('Access denied.');
+                $this->flashMessenger()->addErrorMessage('Доступ запрещен.');
             }
         } else {
-            $this->flashMessenger()->addErrorMessage('Team or place not found.');
+            $this->flashMessenger()->addErrorMessage('Команда или площадка не найдена.');
         }
 
         $this->redirect()->toRoute('team/list');
@@ -129,7 +129,7 @@ class TeamController extends AbstractActionController
                 $this->entityManager->persist($entity);
                 $this->entityManager->flush();
 
-                $this->flashMessenger()->addSuccessMessage('Team created successfully');
+                $this->flashMessenger()->addSuccessMessage('Команда создана');
                 $this->redirect()->toRoute('team/list');
             }
         }
@@ -150,7 +150,7 @@ class TeamController extends AbstractActionController
             || (!$this->isAllowed('team', 'edit')
                 && (!$entity->getOwner() || $entity->getOwner()->getId() != $this->zfcUserAuthentication()->getIdentity()->getId()))
         ) {
-            $this->flashMessenger()->addErrorMessage('Team not found');
+            $this->flashMessenger()->addErrorMessage('Команда не найдена');
             $this->redirect()->toRoute('team/list');
         }
 
@@ -174,7 +174,7 @@ class TeamController extends AbstractActionController
                 $this->entityManager->persist($entity);
                 $this->entityManager->flush();
 
-                $this->flashMessenger()->addSuccessMessage('Team updated successfully');
+                $this->flashMessenger()->addSuccessMessage('Команда обновлена');
                 $this->redirect()->toRoute('team/list');
             }
         }
@@ -201,7 +201,7 @@ class TeamController extends AbstractActionController
             $this->getEntityManager()->remove($entity);
             $this->getEntityManager()->flush();
 
-            $this->flashMessenger()->addSuccessMessage('Team deleted successfully');
+            $this->flashMessenger()->addSuccessMessage('Команда удалена');
         }
 
         $this->redirect()->toRoute('team/list');
