@@ -488,7 +488,7 @@ return array(
                 'resource' => 'resolution'
             ),
             array(
-                'label'    => 'Live',
+                'label'    => 'Трансляция',
                 'uri'    => '/live',
                 'resource' => 'live'
             ),
