@@ -10,6 +10,7 @@
         <table class="table table-striped table-bordered table-advance table-hover" id="teams-table">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Страна</th>
                 <th>Город</th>
                 <th>Команды</th>
@@ -19,7 +20,7 @@
             </thead>
             <tfoot>
             <tr>
-                <td colspan="7">
+                <td colspan="8">
                     <a class="btn green" href="<?=$this->url('place/add')?>">
                         <i class="icon-plus-sign icon-white"></i>
                         Добавить Площадку
@@ -28,22 +29,7 @@
             </tr>
             </tfoot>
             <tbody>
-            <? foreach($places as $place): ?>
-                <tr>
-                    <td><?=$place->getCity() && $place->getCity()->getCountry() ? $place->getCity()->getCountry()->getName() : ''?></td>
-                    <td><?=$place->getCity() ? $place->getCity()->getName() : ''?></td>
-                    <td><?=$place->getTeams()->count()?> / <?=$place->getTeamsMax()?></td>
-                    <td><?=$place->getOwner() ? $place->getOwner()->getDisplayName() : ''?></td>
-                    <td>
-                        <? if ($this->isAllowed('place', 'list')): ?>
-                            <a class="btn blue" href="<?=$this->url('place/show', array('id' => $place->getId()))?>">
-                                <i class="icon-book"></i>
-                                Профиль
-                            </a>
-                        <? endif; ?>
-                    </td>
-                </tr>
-            <? endforeach; ?>
+
             </tbody>
         </table>
     </div>
@@ -58,7 +44,39 @@
 //<script type="text/javascript">
     (function() {
         $('#teams-table').dataTable({
-            iDisplayLength: 100
+            sDom: "<'row-fluid'<'span6'l><'span6'>r>t<'row-fluid'<'span6'i><'span6'p>>",
+            aaSorting: [[0, 'desc']],
+            iDisplayLength: 100,
+            bProcessing: true,
+            bSearchable: false,
+            bServerSide: true,
+            sAjaxSource: '<?=$this->url('place/list')?>',
+            sAjaxDataProp: 'places',
+            sServerMethod: 'POST',
+            aoColumns: [
+                {
+                    mDataProp: 'id',
+                    bVisible: false
+                },
+                {
+                    mDataProp: 'country_name'
+                },
+                {
+                    mDataProp: 'city_name'
+                },
+                {
+                    mDataProp: 'team'
+                },
+                {
+                    mDataProp: 'user_name'
+                },
+                {
+                    mData: function(obj, type) {
+                        return '<a class="btn blue" href="<?=$this->url('place/show', array('id' => ''))?>' + obj.id + '"><i class="icon-book"></i>Профиль</a>';
+                    }
+                }
+
+            ]
         });
     })();
 //</script>

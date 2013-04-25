@@ -9,6 +9,7 @@ use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -26,7 +27,7 @@ class PlaceController extends AbstractActionController
 
     public function showAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id', null);
+        $id     = $this->getEvent()->getRouteMatch()->getParam('id', null);
         $entity = $this->getEntityManager()->find('Brainworkers\Entity\Place', $id);
 
         return array(
@@ -36,7 +37,41 @@ class PlaceController extends AbstractActionController
 
     public function listAction()
     {
-        return new ViewModel(array('places' => $this->getEntityManager()->getRepository('Brainworkers\Entity\Place')->findAll()));
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            /** @var $repository \Brainworkers\Repository\Place */
+            $repository = $this->getEntityManager()->getRepository('Brainworkers\Entity\Place');
+
+            $limit        = $this->getRequest()->getPost('iDisplayLength', 30);
+            $skip         = $this->getRequest()->getPost('iDisplayStart', 0);
+            $columnsCount = $this->getRequest()->getPost('iColumns', 0);
+
+            $columns = array();
+            for ($i = 0; $i < $columnsCount; $i++) {
+                $column = $this->getRequest()->getPost('mDataProp_' . $i, null);
+                if ($column !== null) {
+                    $columns[$i] = $column;
+                }
+            }
+
+            $order = array();
+            for ($i = 0; $i < $columnsCount; $i++) {
+                $column = $this->getRequest()->getPost('iSortCol_' . $i, null);
+                if ($column !== null && isset($columns[$column])) {
+                    $order[$columns[$column]] = $this->getRequest()->getPost('sSortDir_' . $i, null);
+                }
+            }
+
+            $total = $repository->getTotalRecordsCount();
+
+            return new JsonModel(
+                array(
+                     'places'               => $repository->getList($limit, $skip, $order),
+                     'iTotalRecords'        => $total,
+                     'iTotalDisplayRecords' => $total,
+                     'sEcho'                => intval($this->getRequest()->getPost('sEcho', 0))
+                )
+            );
+        }
     }
 
     public function addAction()
@@ -80,10 +115,13 @@ class PlaceController extends AbstractActionController
 
     public function editAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id', null);
+        $id     = $this->getEvent()->getRouteMatch()->getParam('id', null);
         $entity = $this->getEntityManager()->find('Brainworkers\Entity\Place', $id);
 
-        if (empty($entity) || (!$this->isAllowed('team', 'edit') && (!$entity->getOwner() || $entity->getOwner()->getId() != $this->zfcUserAuthentication()->getIdentity()->getId()))) {
+        if (empty($entity)
+            || (!$this->isAllowed('team', 'edit')
+                && (!$entity->getOwner() || $entity->getOwner()->getId() != $this->zfcUserAuthentication()->getIdentity()->getId()))
+        ) {
             $this->flashMessenger()->addErrorMessage('Place not found');
             $this->redirect()->toRoute('place/list');
         }
@@ -137,10 +175,13 @@ class PlaceController extends AbstractActionController
 
     public function deleteAction()
     {
-        $id = $this->getEvent()->getRouteMatch()->getParam('id', null);
+        $id     = $this->getEvent()->getRouteMatch()->getParam('id', null);
         $entity = $this->getEntityManager()->find('Brainworkers\Entity\Place', $id);
 
-        if (empty($entity) || (!$this->isAllowed('team', 'edit') && (!$entity->getOwner() || $entity->getOwner()->getId() != $this->zfcUserAuthentication()->getIdentity()->getId()))) {
+        if (empty($entity)
+            || (!$this->isAllowed('team', 'edit')
+                && (!$entity->getOwner() || $entity->getOwner()->getId() != $this->zfcUserAuthentication()->getIdentity()->getId()))
+        ) {
             $this->flashMessenger()->addErrorMessage('Place not found');
         } else {
             $this->getEntityManager()->remove($entity);

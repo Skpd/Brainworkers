@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Brainworkers\Repository\Place")
  * @ORM\Table(name="places")
  * @Form\Name("place")
  * @ORM\HasLifecycleCallbacks
