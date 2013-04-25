@@ -150,6 +150,29 @@ class User implements UserInterface, RoleProviderInterface
      * @Form\Exclude()
      */
     protected $teams;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Brainworkers\Entity\Place", mappedBy="owner")
+     * @var \Brainworkers\Entity\Place
+     * @Form\Exclude()
+     */
+    protected $place;
+
+    /**
+     * @param \Brainworkers\Entity\Place $place
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
+    }
+
+    /**
+     * @return \Brainworkers\Entity\Place
+     */
+    public function getPlace()
+    {
+        return $this->place;
+    }
     #endregion
 
     /** @ORM\PrePersist */

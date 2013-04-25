@@ -58,17 +58,8 @@ class AnswerFieldset extends Fieldset implements InputFilterProviderInterface, S
                     array('name' => 'Boolean'),
                 )
             ),
-            'team'         => array(
+            'localId'         => array(
                 'required'   => true,
-                'validators' => array(
-                    array(
-                        'name'    => 'DoctrineModule\Validator\ObjectExists',
-                        'options' => array(
-                            'object_repository' => $this->entityManager->getRepository('Brainworkers\Entity\Team'),
-                            'fields'            => 'id'
-                        )
-                    )
-                )
             )
         );
     }
@@ -83,7 +74,7 @@ class AnswerFieldset extends Fieldset implements InputFilterProviderInterface, S
         $this->add(
             array(
                  'type'    => 'text',
-                 'name'    => 'team',
+                 'name'    => 'localId',
                  'options' => array(
                      'label'          => 'Команда',
 //                     'object_manager' => $this->entityManager,
@@ -97,15 +88,15 @@ class AnswerFieldset extends Fieldset implements InputFilterProviderInterface, S
             array(
                  'name'       => 'content',
                  'options'    => array('label' => 'Текст'),
-                 'attributes' => array('required' => 'required', 'class' => 'answer-content')
+                 'attributes' => array('class' => 'answer-content')
             )
         );
 
         $this->add(
             array(
                  'type'    => 'checkbox',
-                 'name'    => 'Спорный?',
-                 'options' => array('label' => 'Is Disputable?'),
+                 'name'    => 'isDisputable',
+                 'options' => array('label' => 'Спорный?'),
             )
         );
     }

@@ -13,7 +13,7 @@
 					<th class="text-center" colspan="<?=count($questions)?>">Questions</th>
 				</tr>
 				<tr>
-					<? foreach ($questions as $question): ?>
+					<? foreach ($questions as $n => $question): ?>
 						<th><?=$question->getName()?></th>
 					<? endforeach; ?>
 				</tr>

@@ -116,6 +116,17 @@ class AnswerController extends AbstractActionController
                     /** @var $answer Answer */
                     $answer->setQuestion($question);
 
+                    /** @var $teams \Doctrine\Common\Collections\ArrayCollection */
+                    $teams = $this->zfcUserAuthentication()->getIdentity()->getPlace()->getTeams();
+
+                    if ($teams->count() < $answer->getLocalId() - 1) {
+                        $this->flashMessenger()->addErrorMessage('Команда не найдена');
+                        $this->redirect()->toRoute('answer/add');
+                        continue;
+                    }
+
+                    $answer->setTeam($teams->get($answer->getLocalId() - 1));
+
                     if ($answer->getIsDisputable()) {
                         /** @var $similar Answer */
                         $similar = $this->getEntityManager()->getRepository('Brainworkers\Entity\Answer')

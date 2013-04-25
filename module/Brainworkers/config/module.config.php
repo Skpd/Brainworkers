@@ -336,7 +336,7 @@ return array(
                     array(array('user'), 'place', 'get'),
                     array(array('admin'), 'place', 'edit'),
                     array(array('admin'), 'place', 'delete'),
-                    array(array('admin', 'jury'), 'standings'),
+                    array(array('admin', 'jury', 'operator'), 'standings'),
                     array(array('admin', 'operator'), 'live'),
                 ),
                 'deny'  => array(),

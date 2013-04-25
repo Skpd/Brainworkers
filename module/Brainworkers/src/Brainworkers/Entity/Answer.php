@@ -59,6 +59,28 @@ class Answer
      **/
     private $team;
 
+    /**
+     * @var
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $localId;
+
+    /**
+     * @param  $localId
+     */
+    public function setLocalId($localId)
+    {
+        $this->localId = $localId;
+    }
+
+    /**
+     * @return
+     */
+    public function getLocalId()
+    {
+        return $this->localId;
+    }
+
     public function __toString()
     {
         return $this->content;
