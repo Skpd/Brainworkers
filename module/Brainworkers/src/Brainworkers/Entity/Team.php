@@ -26,6 +26,12 @@ class Team
     private $id;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @var int
+     */
+    private $localId;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
@@ -261,6 +267,22 @@ class Team
     }
 
     /**
+     * @param int $localId
+     */
+    public function setLocalId($localId)
+    {
+        $this->localId = $localId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLocalId()
+    {
+        return $this->localId;
+    }
+
+    /**
      * @param boolean $payed
      */
     public function setPayed($payed)
@@ -281,6 +303,7 @@ class Team
      */
     public function setPlace($place)
     {
+        $this->setLocalId($place->getTeams()->count());
         $this->place = $place;
     }
 

@@ -5,6 +5,16 @@ namespace Brainworkers;
 return array(
     'router'          => array(
         'routes' => array(
+            'refresh-local-id' => array(
+                'type'         => 'literal',
+                'options'      => array(
+                    'route'    => '/refresh-local-id',
+                    'defaults' => array(
+                        'controller' => 'Brainworkers\Controller\Team',
+                        'action' => 'refresh-local-id'
+                    ),
+                ),
+            ),
             'payment'   => array(
                 'type'         => 'literal',
                 'options'      => array(
@@ -342,6 +352,7 @@ return array(
                 array('route' => 'StaticPages', 'roles' => array('guest', 'user', 'admin', 'operator', 'jury')),
                 array('route' => 'search', 'roles' => array('guest', 'user', 'admin', 'operator', 'jury')),
                 array('route' => 'save-page', 'roles' => array('admin')),
+                array('route' => 'refresh-local-id', 'roles' => array('admin')),
 
                 array('route' => 'team/assign-to', 'roles' => array('user')),
                 array('route' => 'team/show', 'roles' => array('admin', 'user', 'guest')),

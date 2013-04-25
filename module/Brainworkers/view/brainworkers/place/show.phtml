@@ -16,6 +16,7 @@
 <table class="table table-striped table-bordered table-advance table-hover">
     <thead>
     <tr>
+        <th>№</th>
         <th>Название</th>
         <th>ФИО капитана</th>
         <th>Оплачено?</th>
@@ -25,6 +26,7 @@
     <? if ($place->getTeams()->count() > 0): ?>
         <? foreach ($place->getTeams() as $team): ?>
             <tr>
+                <td><?=$team->getLocalId()?></td>
                 <td><?=$team->getName()?></td>
                 <td><?=$team->getCaptain()->first()?></td>
                 <td><?=$team->getPayed() ? 'Да' : 'Нет'?></td>

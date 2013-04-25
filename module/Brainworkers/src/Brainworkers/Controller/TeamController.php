@@ -26,6 +26,23 @@ class TeamController extends AbstractActionController
     /** @var \Zend\Form\Form */
     private $form;
 
+    public function refreshLocalIdAction()
+    {
+        /** @var $places \Brainworkers\Entity\Place[] */
+        $places = $this->getEntityManager()->getRepository('Brainworkers\Entity\Place')->findAll();
+
+        foreach ($places as $place) {
+            foreach ($place->getTeams() as $id => $team) {
+                $team->setLocalId($id + 1);
+                $this->getEntityManager()->persist($team);
+            }
+        }
+
+        $this->getEntityManager()->flush();
+
+        return false;
+    }
+
     public function assignToAction()
     {
         /** @var $place \Brainworkers\Entity\Place */
