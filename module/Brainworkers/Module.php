@@ -28,6 +28,18 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         $em->attach(
             MvcEvent::EVENT_ROUTE,
             function ($e) use ($sm) {
+                /** @var $e \Zend\Mvc\MvcEvent  */
+
+                $action = $e->getRouteMatch()->getParam('action', null);
+
+                if ($action && $action == 'connecting-the-past') {
+                    /** @var $response \Zend\Http\PhpEnvironment\Response */
+                    $response = $e->getResponse();
+                    $response->setStatusCode(303);
+                    $response->getHeaders()->addHeaderLine('location', '/tournament');
+                    return $response;
+                }
+
                 $route = $e->getRouteMatch()->getMatchedRouteName();
                 $cache = $sm->get('page-cache');
                 $key   = 'route-cache-' . $route;

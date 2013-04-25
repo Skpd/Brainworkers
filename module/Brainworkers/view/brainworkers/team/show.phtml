@@ -14,19 +14,19 @@
 <p><?=$team->getPlace() ? $team->getPlace()->getAddress() : ''?></p>
 <p><?=$team->getPayed() ? 'Оплачено' : 'Не оплачено'?></p>
 
-<? if (!$team->getPayed() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId()): ?>
+<? if (!$team->getPayed() && $this->ZfcUserIdentity() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId()): ?>
         <?=$this->render('generic/payment/team.phtml')?>
 <? endif; ?>
 
 <p>
-    <? if ($this->isAllowed('team', 'edit') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+    <? if ($this->isAllowed('team', 'edit') || ($team->getOwner() && $this->ZfcUserIdentity() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
         <a class="btn blue" href="<?=$this->url('team/edit', array('id' => $team->getId()))?>">
             <i class="icon-edit"></i>
             Редактировать
         </a>
     <? endif; ?>
 
-    <? if ($this->isAllowed('team', 'delete') || ($team->getOwner() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
+    <? if ($this->isAllowed('team', 'delete') || ($team->getOwner() && $this->ZfcUserIdentity() && $team->getOwner()->getId() == $this->ZfcUserIdentity()->getId())): ?>
         <a onclick="return confirm('Really?')" class="btn red" href="<?=$this->url('team/delete', array('id' => $team->getId()))?>">
             <i class="icon-minus-sign icon-white"></i>
             Удалить

@@ -82,13 +82,13 @@ class AnswerFieldset extends Fieldset implements InputFilterProviderInterface, S
 
         $this->add(
             array(
-                 'type'    => 'DoctrineModule\Form\Element\ObjectSelect',
+                 'type'    => 'text',
                  'name'    => 'team',
                  'options' => array(
-                     'label'          => 'Team',
-                     'object_manager' => $this->entityManager,
-                     'target_class'   => 'Brainworkers\Entity\Team',
-                     'property'       => 'name'
+                     'label'          => 'Команда',
+//                     'object_manager' => $this->entityManager,
+//                     'target_class'   => 'Brainworkers\Entity\Team',
+//                     'property'       => 'name'
                  )
             )
         );
@@ -96,15 +96,15 @@ class AnswerFieldset extends Fieldset implements InputFilterProviderInterface, S
         $this->add(
             array(
                  'name'       => 'content',
-                 'options'    => array('label' => 'Content'),
-                 'attributes' => array('required' => 'required')
+                 'options'    => array('label' => 'Текст'),
+                 'attributes' => array('required' => 'required', 'class' => 'answer-content')
             )
         );
 
         $this->add(
             array(
                  'type'    => 'checkbox',
-                 'name'    => 'isDisputable',
+                 'name'    => 'Спорный?',
                  'options' => array('label' => 'Is Disputable?'),
             )
         );

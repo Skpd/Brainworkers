@@ -90,6 +90,13 @@
                     minimumResultsForSearch: 25
                 });
             });
+
+            $('.answer-content').unbind('blur');
+            $('.answer-content:last').blur(function() {
+                if ($(this).val()) {
+                    $('#add-answer').click();
+                }
+            });
         };
 
         init();
