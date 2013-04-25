@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Brainworkers\Repository\Team")
  * @ORM\Table(name="teams")
  * @Form\Name("team")
  * @ORM\HasLifecycleCallbacks

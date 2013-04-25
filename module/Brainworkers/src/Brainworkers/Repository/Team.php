@@ -3,31 +3,29 @@
 namespace Brainworkers\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr;
 
-class Place extends EntityRepository
+class Team extends EntityRepository
 {
-
     public function getTotalRecordsCount()
     {
-        return $this->createQueryBuilder('place')->select('COUNT(place)')->getQuery()->getSingleScalarResult();
+        return $this->createQueryBuilder('team')->select('COUNT(team)')->getQuery()->getSingleScalarResult();
     }
 
     public function getList($limit = null, $skip = null, array $order = array())
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->createQueryBuilder('team');
         $qb->select(
-            'place.id AS id',
+            'team.id AS id',
+            'team.name AS team_name',
             'city.name AS city_name',
             'country.name AS country_name',
-            "CONCAT(CONCAT(CONCAT(CONCAT(user.surname, ' '), user.name), ' '), user.patronymic) AS user_name",
-            'COUNT(teams) AS teams_count',
-            "CONCAT(CONCAT(COUNT(teams),' / '), place.teamsMax) AS team"
+            "CONCAT(CONCAT(CONCAT(CONCAT(player.surname, ' '), player.name), ' '), player.patronymic) AS captain_name",
+            'team.payed AS payed'
         );
-        $qb->from('Brainworkers\Entity\Place', 'place')
-            ->leftJoin('place.city', 'city')
+        $qb->leftJoin('team.city', 'city')
             ->leftJoin('city.country', 'country')
-            ->leftJoin('place.owner', 'user')
-            ->leftJoin('place.teams', 'teams');
+            ->leftJoin('team.players', 'player', Expr\Join::WITH, 'player.flag = 1');
 
         $qb->groupBy('id');
 
@@ -45,21 +43,19 @@ class Place extends EntityRepository
                     case 'country_name':
                         $qb->orderBy('country.name', $direction);
                         break;
-                    case 'user_name':
-                        $qb->orderBy('user.surname', $direction);
-                        $qb->addOrderBy('user.name', $direction);
-                        $qb->addOrderBy('user.patronymic', $direction);
+                    case 'captain_name':
+                        $qb->orderBy('player.surname', $direction);
+                        $qb->addOrderBy('player.name', $direction);
+                        $qb->addOrderBy('player.patronymic', $direction);
                         break;
-                    case 'team':
-                        $qb->orderBy('teams_count', $direction);
-                        $qb->addOrderBy('place.teamsMax', $direction);
+                    case 'function':
+                        $qb->orderBy('team.payed', $direction);
                         break;
                 }
             }
         }
 
         $query = $qb->getQuery();
-
         if ($limit !== null) {
             $query->setMaxResults($limit);
         }

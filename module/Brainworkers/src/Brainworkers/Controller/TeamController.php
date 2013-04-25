@@ -8,6 +8,7 @@ use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -69,34 +70,43 @@ class TeamController extends AbstractActionController
 
     public function listAction()
     {
-//        \Zend\Debug\Debug::dump(
-//            $this->getEntityManager()->getRepository('Brainworkers\Entity\Team')
-//                ->createQueryBuilder('t')
-//                ->join('t.owner', 'u')
-//                ->addSelect('u.id-:userId AS HIDDEN isOwner')
-//                ->orderBy('isOwner')
-//                ->setParameter('userId', $this->zfcUserAuthentication()->getIdentity()->getId())
-//                ->getQuery()->getSQL()
-//        );
-//        return new ViewModel(
-//            array(
-//                 'teams' => $this->getEntityManager()->getRepository('Brainworkers\Entity\Team')
-//                     ->findAll()
-//            )
-//        );
-        return new ViewModel(
-            array(
-                 'teams' => $this->getEntityManager()->getRepository('Brainworkers\Entity\Team')
-                     ->createQueryBuilder('t')
-//                     ->join('t.owner', 'u')
-//                     ->join('t.city', 'city')
-//                     ->join('t.country', 'country')
-//                     ->addSelect('u.id-:userId AS HIDDEN isOwner')
-//                     ->orderBy('isOwner')
-//                     ->setParameter('userId', $this->zfcUserAuthentication()->getIdentity()->getId())
-                     ->getQuery()->getResult()
-            )
-        );
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            /** @var $repository \Brainworkers\Repository\Team */
+            $repository = $this->getEntityManager()->getRepository('Brainworkers\Entity\Team');
+
+            $limit        = $this->getRequest()->getPost('iDisplayLength', 30);
+            $skip         = $this->getRequest()->getPost('iDisplayStart', 0);
+            $columnsCount = $this->getRequest()->getPost('iColumns', 0);
+
+            $columns = array();
+            for ($i = 0; $i < $columnsCount; $i++) {
+                $column = $this->getRequest()->getPost('mDataProp_' . $i, null);
+                if ($column !== null) {
+                    $columns[$i] = $column;
+                }
+            }
+
+            $order = array();
+            for ($i = 0; $i < $columnsCount; $i++) {
+                $column = $this->getRequest()->getPost('iSortCol_' . $i, null);
+                if ($column !== null && isset($columns[$column])) {
+                    $order[$columns[$column]] = $this->getRequest()->getPost('sSortDir_' . $i, null);
+                }
+            }
+
+            $total = $repository->getTotalRecordsCount();
+
+            return new JsonModel(
+                array(
+                     'teams'                => $repository->getList($limit, $skip, $order),
+                     'iTotalRecords'        => $total,
+                     'iTotalDisplayRecords' => $total,
+                     'sEcho'                => intval($this->getRequest()->getPost('sEcho', 0))
+                )
+            );
+        } else {
+            return new ViewModel();
+        }
     }
 
     public function addAction()

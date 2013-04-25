@@ -46,7 +46,7 @@
         $('#teams-table').dataTable({
             sDom: "<'row-fluid'<'span6'l><'span6'>r>t<'row-fluid'<'span6'i><'span6'p>>",
             aaSorting: [[0, 'desc']],
-            iDisplayLength: 100,
+            bStateSave: true,
             bProcessing: true,
             bSearchable: false,
             bServerSide: true,
@@ -72,8 +72,9 @@
                 },
                 {
                     mData: function(obj, type) {
-                        return '<a class="btn blue" href="<?=$this->url('place/show', array('id' => ''))?>' + obj.id + '"><i class="icon-book"></i>Профиль</a>';
-                    }
+                        return '<a class="btn blue" href="<?=$this->url('place/show', array('id' => ''))?>' + obj.id + '"><i class="icon-book"></i> Профиль</a>';
+                    },
+                    bSortable: false
                 }
 
             ]

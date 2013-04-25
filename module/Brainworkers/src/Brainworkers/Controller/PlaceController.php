@@ -71,6 +71,8 @@ class PlaceController extends AbstractActionController
                      'sEcho'                => intval($this->getRequest()->getPost('sEcho', 0))
                 )
             );
+        } else {
+            return new ViewModel();
         }
     }
 

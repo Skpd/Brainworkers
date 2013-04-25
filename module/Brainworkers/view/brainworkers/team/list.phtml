@@ -92,23 +92,6 @@
             </tfoot>
             <? endif; ?>
             <tbody>
-            <? foreach($teams as $team): ?>
-                <tr>
-                    <td><?=$team->getId()?></td>
-                    <td><?=$team->getName()?></td>
-                    <td><?=$team->getCountry() ? $team->getCountry()->getName() : ''?></td>
-                    <td><?=$team->getCity() ? $team->getCity()->getName() : ''?></td>
-                    <td><?=$team->getCaptain()->first()?></td>
-                    <td><?=$team->getPayed() ? 'Да' : 'Нет'?></td>
-                    <td>
-                        <? if ($this->isAllowed('team', 'list')): ?>
-                            <a class="btn blue" href="<?=$this->url('team/show', array('id' => $team->getId()))?>">
-                                Профиль
-                            </a>
-                        <? endif; ?>
-                    </td>
-                </tr>
-            <? endforeach; ?>
             </tbody>
         </table>
     </div>
@@ -123,7 +106,46 @@
 //<script type="text/javascript">
     (function() {
         $('#teams-table').dataTable({
-            iDisplayLength: 100
+            sDom: "<'row-fluid'<'span6'l><'span6'>r>t<'row-fluid'<'span6'i><'span6'p>>",
+            aaSorting: [[0, 'desc']],
+            bProcessing: true,
+            bStateSave: true,
+            bSearchable: false,
+            bServerSide: true,
+            sAjaxSource: '<?=$this->url('team/list')?>',
+            sAjaxDataProp: 'teams',
+            sServerMethod: 'POST',
+            aoColumns: [
+                {
+                    mDataProp: 'id',
+                    bVisible: false
+                },
+                {
+                    mDataProp: 'team_name'
+                },
+                {
+                    mDataProp: 'country_name'
+                },
+                {
+                    mDataProp: 'city_name'
+                },
+                {
+                    mDataProp: 'captain_name'
+                },
+                {
+                    mDataProp: 'payed',
+                    mData: function(obj, type) {
+                        return obj.payed ? 'Да' : 'Нет';
+                    }
+                },
+                {
+                    mData: function(obj, type) {
+                        return '<a class="btn blue" href="<?=$this->url('team/show', array('id' => ''))?>' + obj.id + '"><i class="icon-book"></i> Профиль</a>';
+                    },
+                    bSortable: false
+                }
+
+            ]
         });
     })();
 //</script>
