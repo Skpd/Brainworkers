@@ -9,7 +9,7 @@
 <p>Команд: <?=$place->getTeams()->count()?> / <?=$place->getTeamsMax()?></p>
 <p>Точный адрес места проведения: <?=$place->getAddress()?></p>
 <p>Дополнительный взнос на площадке: <?=$place->getAddMoney() ?: 'Нет' ?></p>
-<p>Видеосъемка: <?=$place->getVideoState()?></p>
+<p>Видеосъемка: <?=$place->getVideoStateText()?></p>
 <p>Событие ВКонтакте: <?=$place->getEventVk()?></p>
 
 <p>Команды:</p>

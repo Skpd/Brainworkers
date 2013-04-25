@@ -50,9 +50,19 @@ class Place
     private $addMoney;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     private $videoState;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $massMedia;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $videoEquipment;
 
     /**
      * @ORM\Column(type="string")
@@ -110,6 +120,22 @@ class Place
     public function getCityName()
     {
         return $this->getCity() ? $this->getCity()->getName() : '';
+    }
+
+    public function getVideoStateText()
+    {
+        switch ($this->getVideoState()) {
+            case 0:
+                return 'Нет';
+            case 1:
+                return 'Да, любительская';
+            case 2:
+                return 'Да, новостной репортаж';
+            case 3:
+                return 'Да, полная съемка';
+            default:
+                return 'Да';
+        }
     }
 
     /** @ORM\PrePersist */
@@ -170,6 +196,26 @@ class Place
     }
 
     #region Getters / Setters
+
+    public function setMassMedia($massMedia)
+    {
+        $this->massMedia = $massMedia;
+    }
+
+    public function getMassMedia()
+    {
+        return $this->massMedia;
+    }
+
+    public function setVideoEquipment($videoEquipment)
+    {
+        $this->videoEquipment = $videoEquipment;
+    }
+
+    public function getVideoEquipment()
+    {
+        return $this->videoEquipment;
+    }
 
     public function setAddMoney($addMoney)
     {

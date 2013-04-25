@@ -18,6 +18,7 @@ class Place extends Form implements InputFilterProviderInterface, ServiceLocator
      * Set service locator
      *
      * @param ServiceLocatorInterface $serviceLocator
+     *
      * @return mixed
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
@@ -43,16 +44,16 @@ class Place extends Form implements InputFilterProviderInterface, ServiceLocator
             'teamsMax' => array(
                 'required' => true
             ),
-            'address' => array(
+            'address'  => array(
                 'required' => true
             ),
-            'contact' => array(
+            'contact'  => array(
                 'required' => true
             ),
-            'eventVk' => array(
+            'eventVk'  => array(
                 'required' => false
             ),
-            'teams' => array(
+            'teams'    => array(
                 'required' => false
             )
         );
@@ -78,87 +79,83 @@ class Place extends Form implements InputFilterProviderInterface, ServiceLocator
         );
         $this->add(
             array(
-                 'name'       => 'teamsMax',
-                 'type'       => 'number',
-                 'options'    => array(
+                 'name'    => 'teamsMax',
+                 'type'    => 'number',
+                 'options' => array(
                      'label' => 'Максимум команд на площадке',
                  ),
             )
         );
         $this->add(
             array(
-                 'name'       => 'address',
-                 'type'       => 'textarea',
-                 'options'    => array(
+                 'name'    => 'address',
+                 'type'    => 'textarea',
+                 'options' => array(
                      'label' => 'Точный адрес места проведения',
                  ),
             )
         );
         $this->add(
             array(
-                 'name'       => 'contact',
-                 'type'       => 'textarea',
-                 'options'    => array(
+                 'name'    => 'contact',
+                 'type'    => 'textarea',
+                 'options' => array(
                      'label' => 'Контактные данные организатора площадки',
                  ),
             )
         );
         $this->add(
             array(
-                 'name'       => 'addMoney',
-                 'type'       => 'textarea',
-                 'options'    => array(
+                 'name'    => 'addMoney',
+                 'type'    => 'textarea',
+                 'options' => array(
                      'label' => 'Дополнительный взнос на площадке',
                  ),
             )
         );
         $this->add(
             array(
-                 'name'       => 'videoState',
-                 'type'       => 'checkbox',
-                 'options'    => array(
-                     'label' => 'Будет ли на площадке видеосъемка?',
+                 'name'    => 'videoState',
+                 'type'    => 'select',
+                 'options' => array(
+                     'label'   => 'Будет ли на площадке видеосъемка?',
+                     'options' => array(
+                         0 => 'Нет',
+                         1 => 'Да, любительская',
+                         2 => 'Да, новостной репортаж',
+                         3 => 'Да, полная съемка',
+                     )
                  ),
             )
         );
-/*
-        $this->add(array('name' => 'teamsMax', 'type' => 'number'));
-        $this->add(array('name' => 'address'));
-        $this->add(array('name' => 'contact', 'type' => 'textarea'));
-        $this->add(array('name' => 'addMoney', 'type' => 'textarea'));
-        $this->add(array('name' => 'videoState', 'type' => 'checkbox'));
-        $this->add(array('name' => 'eventVk'));
-*/
         $this->add(
             array(
-                 'name'       => 'EventVk',
-                 'type'       => 'text',
-                 'options'    => array(
+                 'name'    => 'EventVk',
+                 'type'    => 'text',
+                 'options' => array(
                      'label' => 'Событие ВК',
                  ),
             )
         );
 
-/*        $this->add(
+        $this->add(
             array(
-                 'type'    => 'DoctrineModule\Form\Element\ObjectSelect',
-                 'name'    => 'teams',
-                 'attributes' => array(
-                     'multiple' => true,
-                 ),
+                 'name'    => 'massMedia',
+                 'type'    => 'checkbox',
                  'options' => array(
-                     'label'          => 'Teams',
-                     'object_manager' => $this->getServiceLocator()->getServiceLocator()->get('doctrine.entity_manager.orm_default'),
-                     'target_class'   => 'Brainworkers\Entity\Team',
-                     'property'       => 'name',
-                     'find_method'    => array(
-                         'name' => 'findBy',
-                         'params' => array(
-                             'criteria' => array('place' => null)
-                         )
-                     )
-                 )
+                     'label' => 'Будут ли СМИ?',
+                 ),
             )
-        );*/
+        );
+
+        $this->add(
+            array(
+                 'name'    => 'videoEquipment',
+                 'type'    => 'text',
+                 'options' => array(
+                     'label' => 'Имеющаяся техника для видеосъемки?',
+                 ),
+            )
+        );
     }
 }
