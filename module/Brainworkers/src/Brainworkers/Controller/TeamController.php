@@ -199,6 +199,7 @@ class TeamController extends AbstractActionController
     public function deleteAction()
     {
         $id     = $this->getEvent()->getRouteMatch()->getParam('id', null);
+        /** @var $entity \Brainworkers\Entity\Team */
         $entity = $this->getEntityManager()->find('Brainworkers\Entity\Team', $id);
 
         if (empty($entity)
@@ -208,6 +209,11 @@ class TeamController extends AbstractActionController
             $this->flashMessenger()->addErrorMessage('Team not found');
             $this->redirect()->toRoute('team/list');
         } else {
+
+            foreach ($entity->getPlayers() as $player) {
+                $this->getEntityManager()->remove($player);
+            }
+
             $this->getEntityManager()->remove($entity);
             $this->getEntityManager()->flush();
 
