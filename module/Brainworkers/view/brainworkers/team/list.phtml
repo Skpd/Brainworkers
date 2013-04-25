@@ -75,6 +75,7 @@
                 <th>Страна</th>
                 <th>Город</th>
                 <th>Капитан</th>
+                <th>Оплачено</th>
                 <th class="span3">Действия</th>
             </tr>
             </thead>
@@ -98,6 +99,7 @@
                     <td><?=$team->getCountry() ? $team->getCountry()->getName() : ''?></td>
                     <td><?=$team->getCity() ? $team->getCity()->getName() : ''?></td>
                     <td><?=$team->getCaptain()->first()?></td>
+                    <td><?=$team->getPayed() ? 'Да' : 'Нет'?></td>
                     <td>
                         <? if ($this->isAllowed('team', 'list')): ?>
                             <a class="btn blue" href="<?=$this->url('team/show', array('id' => $team->getId()))?>">
