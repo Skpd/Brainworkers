@@ -16,6 +16,7 @@ class Team extends Form implements InputFilterProviderInterface
 
     public function init()
     {
+        $this->setName('team');
         $this->add(
             array(
                  'type'    => 'TeamFieldset',

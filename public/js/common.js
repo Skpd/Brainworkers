@@ -13,7 +13,7 @@
             ;
             $element.select2({
                 placeholder: $element.data('label') || $element.val() || "Поиск" ,
-                width: 220,
+                width: '100%',
                 allowClear: true,
                 minimumInputLength: 2,
                 initSelection: function(element, callback) {

@@ -42,3 +42,7 @@ body > pre {
 #payment-form {
     display: inline-block;
 }
+
+.input-xlarge, #place .control-group textarea, #place .control-group select, #place .control-group input  {
+    width: 100%;
+}
