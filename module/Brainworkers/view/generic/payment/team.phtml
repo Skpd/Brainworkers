@@ -1,4 +1,4 @@
-<form id="payment-form" name="payment" action="http://www.interkassa.com/lib/payment.php" method="post">
+<form id="payment-form" name="payment" action="http://www.interkassa.com/lib/payment.php" method="post" class="form-inline">
     <input type="hidden" name="ik_shop_id" value="1FC951EA-F39F-6300-CD3C-1C65EFA90584">
     <input type="hidden" name="ik_payment_amount" value="10">
     <input id="paymentId" type="hidden" name="ik_payment_id" value="">
@@ -15,7 +15,7 @@
     <input type="hidden" name="ik_status_url" value="http://brainworkers.ru/payment/status">
     <input type="hidden" name="ik_status_method" value="POST">
 
-    <input class="btn blue" type="submit" name="process" value="Оплатить">
+    <input class="btn green" type="submit" name="process" value="Оплатить">
 </form>
 
 <? $this->headScript()->captureStart() ?>
