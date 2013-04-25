@@ -121,7 +121,7 @@ class PlayerFieldset extends Fieldset implements InputFilterProviderInterface, S
                  'type'       => 'date',
                  'name'       => 'birthDate',
                  'attributes' => array(),
-                 'options'    => array('label' => 'Дата рождения', 'type' => 'datetime', 'options' => array('format' => 'd.m.Y'))
+                 'options'    => array('label' => 'Дата рождения', 'format' => 'd.m.Y')
             )
         );
         $this->add(array('name' => 'vk', 'options' => array('label' => 'ВК')));
