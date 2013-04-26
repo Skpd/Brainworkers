@@ -183,6 +183,7 @@ class TeamController extends AbstractActionController
 
         $form = $this->getForm();
         $form->bind($entity);
+        $form->getInputFilter()->get('team')->remove('name');
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
