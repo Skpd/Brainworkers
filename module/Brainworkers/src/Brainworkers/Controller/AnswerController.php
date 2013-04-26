@@ -120,7 +120,7 @@ class AnswerController extends AbstractActionController
                     /** @var $teams \Doctrine\Common\Collections\ArrayCollection */
                     $teams = $this->zfcUserAuthentication()->getIdentity()->getPlace()->getTeams();
 
-                    if ($teams->count() < $answer->getLocalId() - 1) {
+                    if ($teams->count() < $answer->getLocalId()) {
                         $this->flashMessenger()->addErrorMessage('Команда не найдена');
                         $this->redirect()->toRoute('answer/add');
                         continue;

@@ -60,15 +60,15 @@ Apply fix for font awesome icons.
 /***
 Close icon
 ***/
-.close {
-  display: inline-block;
-  margin-top: 0px;
-  margin-right: 0px;
-  width: 9px;
-  height: 9px;
-  background-repeat: no-repeat !important;
-  background-image: url("../img/remove-icon-small.png") !important;
-}
+/*.close {*/
+  /*display: inline-block;*/
+  /*margin-top: 0px;*/
+  /*margin-right: 0px;*/
+  /*width: 9px;*/
+  /*height: 9px;*/
+  /*background-repeat: no-repeat !important;*/
+  /*background-image: url("../img/remove-icon-small.png") !important;*/
+/*}*/
 
 /***
 Default button

@@ -89,10 +89,10 @@ class IndexController extends AbstractActionController
     {
         return array(
             'teams'     => $this->getEntityManager()->createQuery(
-                'SELECT t, SUM(a.resolution) points FROM Brainworkers\Entity\Team t
+                'SELECT t, SUM(a.resolution) AS HIDDEN points FROM Brainworkers\Entity\Team t
                  LEFT JOIN t.answers a
                  GROUP BY t.id
-                 ORDER BY  points DESC
+                 ORDER BY points DESC
                 '
             )->getResult(),
             'questions' => $this->getEntityManager()->getRepository('Brainworkers\Entity\Question')->findAll()
