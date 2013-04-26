@@ -134,16 +134,46 @@ class UploadedFile extends File
     /**
      * Returns the file mime type.
      *
-     * It is extracted from the request from which the file has been uploaded.
-     * Then is should not be considered as a safe value.
+     * The client mime type is extracted from the request from which the file
+     * was uploaded, so it should not be considered as a safe value.
+     *
+     * For a trusted mime type, use getMimeType() instead (which guesses the mime
+     * type based on the file content).
      *
      * @return string|null The mime type
+     *
+     * @see getMimeType
      *
      * @api
      */
     public function getClientMimeType()
     {
         return $this->mimeType;
+    }
+
+    /**
+     * Returns the extension based on the client mime type.
+     *
+     * If the mime type is unknown, returns null.
+     *
+     * This method uses the mime type as guessed by getClientMimeType()
+     * to guess the file extension. As such, the extension returned
+     * by this method cannot be trusted.
+     *
+     * For a trusted extension, use guessExtension() instead (which guesses
+     * the extension based on the guessed mime type for the file).
+     *
+     * @return string|null The guessed extension or null if it cannot be guessed
+     *
+     * @see guessExtension()
+     * @see getClientMimeType()
+     */
+    public function guessClientExtension()
+    {
+        $type = $this->getMimeType();
+        $guesser = ExtensionGuesser::getInstance();
+
+        return $guesser->guess($type);
     }
 
     /**
@@ -221,7 +251,7 @@ class UploadedFile extends File
             return $target;
         }
 
-        throw new FileException(sprintf('The file "%s" is not valid', $this->getPathname()));
+        throw new FileException($this->getErrorMessage($this->getError()));
     }
 
     /**
@@ -245,5 +275,30 @@ class UploadedFile extends File
         }
 
         return 0;
+    }
+
+    /**
+     * Returns an informative upload error message.
+     *
+     * @param int $code The error code returned by an upload attempt
+     *
+     * @return string The error message regarding the specified error code
+     */
+    private function getErrorMessage($errorCode)
+    {
+        static $errors = array(
+            UPLOAD_ERR_INI_SIZE   => 'The file "%s" exceeds your upload_max_filesize ini directive (limit is %d kb).',
+            UPLOAD_ERR_FORM_SIZE  => 'The file "%s" exceeds the upload limit defined in your form.',
+            UPLOAD_ERR_PARTIAL    => 'The file "%s" was only partially uploaded.',
+            UPLOAD_ERR_NO_FILE    => 'No file was uploaded.',
+            UPLOAD_ERR_CANT_WRITE => 'The file "%s" could not be written on disk.',
+            UPLOAD_ERR_NO_TMP_DIR => 'File could not be uploaded: missing temporary directory.',
+            UPLOAD_ERR_EXTENSION  => 'File upload was stopped by a php extension.',
+        );
+
+        $maxFilesize = $errorCode === UPLOAD_ERR_INI_SIZE ? self::getMaxFilesize() / 1024 : 0;
+        $message = isset($errors[$errorCode]) ? $errors[$errorCode] : 'The file "%s" was not uploaded due to an unknown error.';
+
+       return sprintf($message, $this->getClientOriginalName(), $maxFilesize);
     }
 }

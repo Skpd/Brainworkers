@@ -17,6 +17,7 @@
         "bjyoungblood/bjy-authorize": "dev-master",
         "cboden/Ratchet": "0.2.*",
         "aaron4m/zf2-static-pages": "dev-master",
-        "mwillbanks/zfc-twitter-bootstrap": "dev-master"
+        "mwillbanks/zfc-twitter-bootstrap": "dev-master",
+        "goalio/goalio-forgotpassword": "dev-master"
     }
 }

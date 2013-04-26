@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'ZfcUserDoctrineORM' => $vendorDir . '/zf-commons/zfc-user-doctrine-orm/src',
     'ZfcUser' => $vendorDir . '/zf-commons/zfc-user/src',
+    'ZfcTwitterBootstrap' => $vendorDir . '/mwillbanks/zfc-twitter-bootstrap/src',
     'ZfcBase' => $vendorDir . '/zf-commons/zfc-base/src',
     'Zend\\' => $vendorDir . '/zendframework/zendframework/library',
     'ZendTest\\' => $vendorDir . '/zendframework/zendframework/tests',
@@ -25,6 +26,8 @@ return array(
     'Guzzle\\Parser' => $vendorDir . '/guzzle/parser',
     'Guzzle\\Http' => $vendorDir . '/guzzle/http',
     'Guzzle\\Common' => $vendorDir . '/guzzle/common',
+    'GoalioMailService' => $vendorDir . '/goalio/goalio-mailservice/src',
+    'GoalioForgotPassword' => $vendorDir . '/goalio/goalio-forgotpassword/src',
     'Evenement' => $vendorDir . '/evenement/evenement/src',
     'Doctrine\\ORM\\' => $vendorDir . '/doctrine/orm/lib',
     'Doctrine\\DBAL\\' => $vendorDir . '/doctrine/dbal/lib',

@@ -35,8 +35,6 @@ class Request
     const HEADER_CLIENT_PROTO = 'client_proto';
     const HEADER_CLIENT_PORT  = 'client_port';
 
-    protected static $trustProxy = false;
-
     protected static $trustedProxies = array();
 
     /**
@@ -476,7 +474,6 @@ class Request
     public static function setTrustedProxies(array $proxies)
     {
         self::$trustedProxies = $proxies;
-        self::$trustProxy = $proxies ? true : false;
     }
 
     /**
@@ -513,6 +510,24 @@ class Request
         }
 
         self::$trustedHeaders[$key] = $value;
+    }
+
+    /**
+     * Gets the trusted proxy header name.
+     *
+     * @param string $key The header key
+     *
+     * @return string The header name
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function getTrustedHeaderName($key)
+    {
+        if (!array_key_exists($key, self::$trustedHeaders)) {
+            throw new \InvalidArgumentException(sprintf('Unable to get the trusted header name for key "%s".', $key));
+        }
+
+        return self::$trustedHeaders[$key];
     }
 
     /**
@@ -664,6 +679,12 @@ class Request
     /**
      * Returns the client IP addresses.
      *
+     * The most trusted IP address is first, and the less trusted one last.
+     * The "real" client IP address is the last one, but this is also the
+     * less trusted one.
+     *
+     * Use this method carefully; you should use getClientIp() instead.
+     *
      * @return array The client IP addresses
      *
      * @see getClientIp()
@@ -672,7 +693,7 @@ class Request
     {
         $ip = $this->server->get('REMOTE_ADDR');
 
-        if (!self::$trustProxy) {
+        if (!self::$trustedProxies) {
             return array($ip);
         }
 
@@ -683,11 +704,18 @@ class Request
         $clientIps = array_map('trim', explode(',', $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_IP])));
         $clientIps[] = $ip;
 
-        $trustedProxies = self::$trustProxy && !self::$trustedProxies ? array($ip) : self::$trustedProxies;
+        $trustedProxies = !self::$trustedProxies ? array($ip) : self::$trustedProxies;
         $ip = $clientIps[0];
-        $clientIps = array_diff($clientIps, $trustedProxies);
 
-        return $clientIps ? $clientIps : array($ip);
+        foreach ($clientIps as $key => $clientIp) {
+            if (IpUtils::checkIp($clientIp, $trustedProxies)) {
+                unset($clientIps[$key]);
+
+                continue;
+            }
+        }
+
+        return $clientIps ? array_reverse($clientIps) : array($ip);
     }
 
     /**
@@ -714,7 +742,7 @@ class Request
     {
         $ipAddresses = $this->getClientIps();
 
-        return array_pop($ipAddresses);
+        return $ipAddresses[0];
     }
 
     /**
@@ -827,7 +855,7 @@ class Request
      */
     public function getPort()
     {
-        if (self::$trustProxy && self::$trustedHeaders[self::HEADER_CLIENT_PORT] && $port = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PORT])) {
+        if (self::$trustedProxies && self::$trustedHeaders[self::HEADER_CLIENT_PORT] && $port = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PORT])) {
             return $port;
         }
 
@@ -988,7 +1016,7 @@ class Request
      */
     public function isSecure()
     {
-        if (self::$trustProxy && self::$trustedHeaders[self::HEADER_CLIENT_PROTO] && $proto = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PROTO])) {
+        if (self::$trustedProxies && self::$trustedHeaders[self::HEADER_CLIENT_PROTO] && $proto = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_PROTO])) {
             return in_array(strtolower($proto), array('https', 'on', '1'));
         }
 
@@ -1014,7 +1042,7 @@ class Request
      */
     public function getHost()
     {
-        if (self::$trustProxy && self::$trustedHeaders[self::HEADER_CLIENT_HOST] && $host = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_HOST])) {
+        if (self::$trustedProxies && self::$trustedHeaders[self::HEADER_CLIENT_HOST] && $host = $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_HOST])) {
             $elements = explode(',', $host);
 
             $host = $elements[count($elements) - 1];
@@ -1454,11 +1482,14 @@ class Request
     {
         $requestUri = '';
 
-        if ($this->headers->has('X_ORIGINAL_URL') && false !== stripos(PHP_OS, 'WIN')) {
+        if ($this->headers->has('X_ORIGINAL_URL')) {
             // IIS with Microsoft Rewrite Module
             $requestUri = $this->headers->get('X_ORIGINAL_URL');
             $this->headers->remove('X_ORIGINAL_URL');
-        } elseif ($this->headers->has('X_REWRITE_URL') && false !== stripos(PHP_OS, 'WIN')) {
+            $this->server->remove('HTTP_X_ORIGINAL_URL');
+            $this->server->remove('UNENCODED_URL');
+            $this->server->remove('IIS_WasUrlRewritten');
+        } elseif ($this->headers->has('X_REWRITE_URL')) {
             // IIS with ISAPI_Rewrite
             $requestUri = $this->headers->get('X_REWRITE_URL');
             $this->headers->remove('X_REWRITE_URL');

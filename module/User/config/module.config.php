@@ -16,6 +16,16 @@ return array(
                 ),
                 'may_terminate' => false,
                 'child_routes'  => array(
+                    'reset-password'    => array(
+                        'type'    => 'literal',
+                        'options' => array(
+                            'route'    => '/reset-password',
+                            'defaults' => array(
+                                'controller' => 'User\Controller\User',
+                                'action'     => 'reset-password',
+                            ),
+                        )
+                    ),
                     'add'    => array(
                         'type'    => 'segment',
                         'options' => array(
@@ -62,7 +72,8 @@ return array(
     ),
     'controllers'     => array(
         'invokables' => array(
-            'User\Controller\Management' => 'User\Controller\ManagementController'
+            'User\Controller\Management' => 'User\Controller\ManagementController',
+            'User\Controller\User' => 'User\Controller\UserController',
         )
     ),
     'doctrine'        => array(
@@ -80,6 +91,11 @@ return array(
                 )
             )
         )
+    ),
+    'form_elements'   => array(
+        'invokables' => array(
+            'ResetPasswordForm'         => 'User\Form\ResetPassword',
+        ),
     ),
     'service_manager' => array(
         'factories'  => array(
@@ -145,6 +161,7 @@ return array(
                 array('route' => 'zfcuser', 'roles' => array('user')),
                 array('route' => 'zfcuser/logout', 'roles' => array('user', 'admin')),
                 array('route' => 'zfcuser/login', 'roles' => array('guest')),
+                array('route' => 'user/reset-password', 'roles' => array('guest')),
                 array('route' => 'zfcuser/register', 'roles' => array('guest')),
                 array('route' => 'user/list', 'roles' => array('admin')),
                 array('route' => 'user/add', 'roles' => array('admin')),

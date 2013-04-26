@@ -36,13 +36,13 @@ $form->setAttribute('method', 'post');
 		<button class="btn green pull-right" type="submit" name="submit" value="">Войти <i class="m-icon-swapright m-icon-white"></i></button>
         
       </div>
- <!--     <div class="forget-password">
+      <div class="forget-password">
         <h4>Forgot your password ?</h4>
         <p>
-          no worries, click <a href="/user/forgot/" class="" id="forget-password">here</a>
+          no worries, click <a href="<?=$this->url('user/reset-password')?>" class="" id="forget-password">here</a>
           to reset your password.
         </p>
-      </div>-->
+      </div>
 	<?php echo $this->form()->closeTag() ?>
     <!-- END LOGIN FORM -->        
   </div>

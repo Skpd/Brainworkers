@@ -98,7 +98,7 @@ class NativeSessionStorage implements SessionStorageInterface
      */
     public function __construct(array $options = array(), $handler = null, MetadataBag $metaBag = null)
     {
-        ini_set('session.cache_limiter', ''); // disable by default because it's managed by HeaderBag (if used)
+        session_cache_limiter(''); // disable by default because it's managed by HeaderBag (if used)
         ini_set('session.use_cookies', 1);
 
         if (version_compare(phpversion(), '5.4.0', '>=')) {
@@ -140,8 +140,8 @@ class NativeSessionStorage implements SessionStorageInterface
             throw new \RuntimeException('Failed to start the session: already started by PHP ($_SESSION is set).');
         }
 
-        if (ini_get('session.use_cookies') && headers_sent()) {
-            throw new \RuntimeException('Failed to start the session because headers have already been sent.');
+        if (ini_get('session.use_cookies') && headers_sent($file, $line)) {
+            throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
         }
 
         // ok to try and start the session
