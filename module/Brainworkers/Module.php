@@ -28,6 +28,9 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         $em->attach(
             MvcEvent::EVENT_ROUTE,
             function ($e) use ($sm) {
+                if (!$e) {
+                    return;
+                }
                 /** @var $e \Zend\Mvc\MvcEvent  */
 
                 $action = $e->getRouteMatch()->getParam('action', null);
@@ -60,6 +63,9 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Bo
         $em->attach(
             MvcEvent::EVENT_RENDER,
             function ($e) use ($sm, $routes) {
+                if (!$e) {
+                    return;
+                }
                 $route = $e->getRouteMatch()->getMatchedRouteName();
                 if (!in_array($route, $routes)) {
                     return;

@@ -92,13 +92,13 @@ class AnswerFieldset extends Fieldset implements InputFilterProviderInterface, S
             )
         );
 
-        $this->add(
-            array(
-                 'type'    => 'checkbox',
-                 'name'    => 'isDisputable',
-                 'options' => array('label' => 'Спорный?'),
-            )
-        );
+//        $this->add(
+//            array(
+//                 'type'    => 'checkbox',
+//                 'name'    => 'isDisputable',
+//                 'options' => array('label' => 'Спорный?'),
+//            )
+//        );
     }
 
     public function __construct($em)

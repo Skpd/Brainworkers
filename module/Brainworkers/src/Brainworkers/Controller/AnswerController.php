@@ -115,6 +115,7 @@ class AnswerController extends AbstractActionController
                 foreach ($data['answers'] as $n => $answer) {
                     /** @var $answer Answer */
                     $answer->setQuestion($question);
+                    $answer->setIsDisputable(true);
 
                     /** @var $teams \Doctrine\Common\Collections\ArrayCollection */
                     $teams = $this->zfcUserAuthentication()->getIdentity()->getPlace()->getTeams();
