@@ -46,6 +46,17 @@ class TeamFieldset extends Fieldset implements InputFilterProviderInterface, Ser
                 'required'   => true,
                 'validators' => array(
                     array('name' => 'StringLength', 'options' => array('max' => 255)),
+                    array(
+                        'name'    => 'DoctrineModule\Validator\NoObjectExists',
+                        'options' => array(
+                            'object_repository' => $this->getServiceLocator()->getServiceLocator()->get('doctrine.entity_manager.orm_default')
+                                ->getRepository('Brainworkers\Entity\Team'),
+                            'fields'            => 'name',
+                            'messages' => array(
+                                \DoctrineModule\Validator\NoObjectExists::ERROR_OBJECT_FOUND => 'Имя уже занято'
+                            )
+                        )
+                    )
                 ),
                 'filters'    => array(
                     array('name' => 'StringTrim'),
