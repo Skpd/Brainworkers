@@ -48,7 +48,7 @@ class Player
 
     /**
      * @ORM\Column(type="date", name="birthdate")
-     * @var string
+     * @var \DateTime
      */
     private $birthDate;
 
@@ -107,7 +107,7 @@ class Player
      */
     public function getBirthDate()
     {
-        return $this->birthDate;
+        return $this->birthDate->format('d.m.Y');
     }
 
     /**

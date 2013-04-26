@@ -60,7 +60,9 @@
             });
         });
 
-        $('input[type="datetime"]').datepicker();
+        $('.datepicker-aware').datepicker({
+            format: 'dd.mm.yyyy'
+        });
     };
 
     $('body').on('click', '.template-remove', function() {

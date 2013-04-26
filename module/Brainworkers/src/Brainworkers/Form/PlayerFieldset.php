@@ -47,9 +47,9 @@ class PlayerFieldset extends Fieldset implements InputFilterProviderInterface, S
             ),
             'birthDate'  => array(
                 'required' => true,
-//                'validators' => array(
-//                    array('name' => 'date', 'options' => array('format' => 'm/d/Y'))
-//                )
+                'validators' => array(
+                    array('name' => 'date', 'options' => array('format' => 'd.m.Y'))
+                ),
             ),
             'vk'         => array(
                 'required'   => false,
@@ -118,10 +118,10 @@ class PlayerFieldset extends Fieldset implements InputFilterProviderInterface, S
         $this->add(array('name' => 'ranking', 'options' => array('label' => 'ID игрока в рейтинге МАК')));
         $this->add(
             array(
-                 'type'       => 'date',
+                 'type'       => 'text',
                  'name'       => 'birthDate',
-                 'attributes' => array(),
-                 'options'    => array('label' => 'Дата рождения', 'format' => 'd.m.Y')
+                 'attributes' => array('class' => 'datepicker-aware'),
+                 'options'    => array('label' => 'Дата рождения')
             )
         );
         $this->add(array('name' => 'vk', 'options' => array('label' => 'ВК')));
