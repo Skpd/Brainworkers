@@ -126,7 +126,13 @@ class AnswerController extends AbstractActionController
                         continue;
                     }
 
-                    $answer->setTeam($teams->get($answer->getLocalId() - 1));
+                    foreach ($teams as $team) {
+                        /** @var $team \Brainworkers\Entity\Team */
+                        if ($answer->getLocalId() == $team->getLocalId()) {
+                            $answer->setTeam($team);
+                            break;
+                        }
+                    }
 
                     if ($answer->getIsDisputable()) {
                         /** @var $similar Answer */
