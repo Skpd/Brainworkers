@@ -39,7 +39,15 @@
                     </a>
                 <? endforeach;?>
             </td>
-            <td><?=$team->getAnswers()->count()?></td>
+            <td>
+                <?
+                $sum = 0;
+                foreach ($rounds as $r => $values) {
+                    $sum += array_sum($values);
+                }
+                echo $sum;
+                ?>
+            </td>
             <td>
                 <?=$n+1?>
             </td>
